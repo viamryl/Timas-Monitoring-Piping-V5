@@ -319,7 +319,12 @@ if __name__ == '__main__':
         md_afi_data = syncronized(md_cons_data,qc_afi, "PK", "PK", "left")
         md_claim_data = syncronized(md_afi_data,ppc_claim, "PK", "PK", "left")
         md = md_claim_data[allcols + ["PK"]]
-        md_for_ppc = syncronized(ppc_without_afi, md[qccols+["PK"]], "PK", "PK", 'left')
+
+        md_for_ppc = pd.merge(ppc_all, md_afi_data, on = "PK", how = "outer", suffixes=("","_dup"))
+        for col in ppc_all:
+            if col in md_afi_data.columns and col !="PK":
+                md_for_ppc[col] = md_for_ppc[col].fillna(md_for_ppc[col+"_dup"])
+                md_for_ppc.drop(columns = [col+"_dup"], inplace=True)
         md_for_ppc = md_for_ppc[allcols]
         md_for_qc = md_afi_data[qcallcols]
         conflict = pd.merge(ppc_conflict, pd.DataFrame(engdata_joint["PK"]), on = "PK", how = 'outer', indicator = True)
