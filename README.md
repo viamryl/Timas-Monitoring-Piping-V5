@@ -74,7 +74,7 @@ The program consists of 4 sub-products :
   It is possible that each project requires different components and values to be monitored. <strong>Since this program is open-source, each project’s IT team can modify the source code according to the management's needs.</strong>
 - Log Monitoring </br>
   ![image](https://github.com/user-attachments/assets/40192351-5afa-4622-966d-985e7185bab0)</br>
-  It is highly recommended to check the program logs daily to monitor if there are any errors when the program runs during the early hours. You can find logs on /dist/pipeline_log_main.txt
+  It is highly recommended to check the program logs daily to monitor if there are any errors when the program runs during the early hours.
 - Rollback </br>
   The rollback feature (to restore Excel data to a few days back) is currently under development.
 
