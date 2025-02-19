@@ -86,4 +86,4 @@ The program consists of 4 sub-products :
 ## Ownership
 TIMAS SUPLINDO  
 Developed by [Auvi. A.](https://www.linkedin.com/in/auviamril/) <br/>
-Assisted by Github Copilot and OpenAI (Big Thanks to Elon Musk)
+Assisted by Github Copilot and OpenAI (Big Thanks to Sam Altman)
