@@ -135,7 +135,7 @@ def rtdata(source_plant):
                 "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MTO for dashboard RT.csv"]
     mir_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MIR for dashboard RT.csv",
                 "D://Dashboard/Pertamina/Monitoring Piping C6H6/MIR for dashboard RT.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR for dashboardRT.csv"]
+                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR for dashboard RT.csv"]
     pworks_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Pworks for dashboard RT.csv",
                    "D://Dashboard/Pertamina/Monitoring Piping C6H6/Pworks for dashboard RT.csv",
                    "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Pworks for dashboard RT.csv"]
