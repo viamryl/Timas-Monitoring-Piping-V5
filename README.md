@@ -54,8 +54,8 @@ The program consists of 4 sub-products :
   ![presentasi 1 timas (21)](https://github.com/user-attachments/assets/93f710f2-1e00-46c3-8b53-565a24202cf9)
 - Edit startdashboard.bat and startdashboard.vbs
   ![presentasi 1 timas (22)](https://github.com/user-attachments/assets/c7e1eea0-3443-4b36-9ed0-105ed64efd99)
-- Run startdashboard.vbs manually. You can make the dashboard runs automatically after the server computer is powered on using Win + r, shell:startup, and make a shortcut to startdashboard.vbs.
-- You can now access the dashboard by navigating to your_ip:8501 (Streamlit runs on port 8501 by default).
+- Run startdashboard.vbs manually. You can make the dashboard runs automatically after the server computer is powered on using `Win + r`, `shell:startup`, and make a shortcut to `startdashboard.vbs`.
+- You can now access the dashboard by navigating to `your_ip:8501` (Streamlit runs on port 8501 by default).
 ### IMPORTANT NOTES
 - Don't forget to open port 8501 in the firewall to ensure the dashboard can be accessed locally within the office network.
 - If you want the dashboard to be accessible online, you can use [Port Forwarding](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide) or a hosting service.
