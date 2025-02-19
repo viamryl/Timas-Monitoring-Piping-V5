@@ -328,6 +328,7 @@ if __name__ == '__main__':
         still_conflict = pd.merge(pd.DataFrame(engdata_conflict["PK"]), conflict, on = "PK",how = "outer", indicator=True)
         still_conflict = still_conflict[still_conflict["_merge"] == "right_only"]
         still_conflict = still_conflict[engallcols]
+        engqc = syncronized(engdata_all, md_afi_data[qccols+["PK"]], "PK", "PK", 'left')
 
         logging.info("Writing Data")
         write_data(md, masterdata_path, sheet_name, 2, 1, "PK")
@@ -340,7 +341,7 @@ if __name__ == '__main__':
 
         logging.info("Produce Data")
         production(md, dashboard_path, "Ready for dashboard", "PK", "PK", False)
-        production(engdata_all, dashboard_path, "Engineer for dashboard", "PK", "JOINT NO")
+        production(engqc, dashboard_path, "Engineer for dashboard", "PK", "JOINT NO")
         production(conflict, dashboard_path, "Conflict for dashboard", "PK", "PK",False)
         production(mto_data, dashboard_path, "MTO for dashboard", instance=True)
         production(mir_data, dashboard_path, "MIR for dashboard", instance=True)
