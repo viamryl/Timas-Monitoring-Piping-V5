@@ -17,6 +17,7 @@ def load_data(file_path, sheetname,skip_row_n, used_cols_list, add_pk = False):
 def clean(df, pk):
     df.drop_duplicates(subset = [pk], inplace = True, keep = 'first')
     df.dropna(subset = [pk], inplace = True)
+    df = df[~df['PK'].astype(str).str.startswith('nan')]
     df[pk] = df[pk].astype(str)
 
     return df

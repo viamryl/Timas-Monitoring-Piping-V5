@@ -52,6 +52,7 @@ def write_data(df, destination_path, sheetname, startrow, startcol, pk = "PK"):
             df.dropna(subset = pk, inplace = True)
             df = df[df[pk] != ""]
             df = df[df[pk] != "nan"]
+            df = df[~df[pk].astype(str).str.startswith('nan')]
             df.reset_index(drop=True, inplace=True)
         except:
             pass
