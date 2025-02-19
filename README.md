@@ -20,11 +20,11 @@ The program consists of 4 sub-products :
 
 ## Prerequisites & Minimum Requirements
 - Server Computer (Mandatory)
-  1. The server computer is running 24 hours a day, continuously
-  2. Intel Core i3 9th gen or above
-  3. At least 8 GB RAM (Synchronization.exe requires a large amount of RAM resources)
-  4. Windows 10 or above
-  5. SSD (Recommended)
+  - The server computer is running 24 hours a day, continuously
+  - Intel Core i3 9th gen or above
+  - At least 8 GB RAM (Synchronization.exe requires a large amount of RAM resources)
+  - Windows 10 or above
+  - SSD (Recommended)
 - [Python 3.11.3](https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe) or above (Mandatory)
 - [Git](https://github.com/git-for-windows/git/releases/download/v2.48.1.windows.1/Git-2.48.1-64-bit.exe) (Optional)
 - [Text Editor](https://code.visualstudio.com/download) (Optional)
@@ -35,6 +35,31 @@ The program consists of 4 sub-products :
 - Clone or Pull this repository
 - Install dependency on [`./requirements.txt`](./requirements.txt)
 - Run [`./installment.py`](./installment.py) using command `python.exe ./installment.py` on terminal.
+- Choose work directories
+  <p align='left'><img src = "https://github.com/user-attachments/assets/8624a761-6d6f-48a9-95a4-3fe76380ef4d", width = 550> </br>
+  this action will generate .exe script
+  <p align='left'><img src = "https://github.com/user-attachments/assets/8de41862-eab8-4851-b491-246644607bd9", width = 700> </br>
+  and the Microsoft Excel template is already available in the selected directory and ready to be filled out. 
+  <p align='left'><img src = "https://github.com/user-attachments/assets/09514382-189d-4aca-9e12-b905341dbd86", width = 650> </br>
+  <strong>Important! You are required to fill in the monitoring data in the provided Excel file. It is strictly prohibited to rename the file, move the file to another folder, or work on data input in a different Excel file, as this may cause synchronization issues.</strong>
+- Run .exe script for the first time manually
+  <p align='left'><img src = "https://github.com/user-attachments/assets/8de41862-eab8-4851-b491-246644607bd9", width = 700> </br>
+- Set up task sheduler both for puller.exe and syncronization.exe for each plant
+  <p align='left'><img src = "https://github.com/user-attachments/assets/b1071e66-fba7-4f4b-a88d-3e7dde5ff6d9", width = 700> </br>
+  Set the task scheduler to run daily. It is recommended to schedule syncronization.exe to run once every day at 1:00 AM and puller.exe every 10 minutes. Then, select the executable file that was generated earlier.</br>
+  <strong>Repeat steps 1-5 for each piping plant / area in the project.</strong>
+- Edit dashboard path on [`./dashboard.py`](./dashboard.py)
+  ![presentasi 1 timas (19)](https://github.com/user-attachments/assets/2d3cd2b5-48cb-4196-80fc-e5f497bae5e6)
+  ![presentasi 1 timas (20)](https://github.com/user-attachments/assets/c94ddb88-4f48-4ac1-9f18-f9777755327f)
+  ![presentasi 1 timas (21)](https://github.com/user-attachments/assets/93f710f2-1e00-46c3-8b53-565a24202cf9)
+- Edit startdashboard.bat and startdashboard.vbs
+  ![presentasi 1 timas (22)](https://github.com/user-attachments/assets/c7e1eea0-3443-4b36-9ed0-105ed64efd99)
+- Run startdashboard.vbs manually. You can make the dashboard runs automatically after the server computer is powered on using Win + r, shell:startup, and make a shortcut to startdashboard.vbs.
+-  
+
+
+
+
 
 ## Limitation, Restriction, and Disclaimer
 - Data Structure </br>
