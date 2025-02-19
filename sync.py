@@ -128,6 +128,13 @@ def slicing(path):
 
     return flname
 
+def fixdate(df,cols):
+    for col in cols:
+        df[col] = pd.to_datetime(df[col], format = "mixed")
+        df[col] = df[col].dt.strftime("%Y-%m-%d")
+
+    return df
+
 if __name__ == '__main__':
     allcols = [
             'LOI Date',
@@ -237,6 +244,19 @@ if __name__ == '__main__':
                  'SPEC 1',
                  'SPEC 2',
                 ]
+    
+    datecols = ['LOI Date', 
+                'KOM Date', 
+                'Welding Map Date', 
+                "Receive Dwg", 
+                'Asbuilt Approved', 
+                'Start Fabric', 
+                'Schedule', 
+                'FIT-UP RECORD DATE', 
+                'WELDING RECORD DATE',
+                'QAQC AFI F/U DATE',
+                'QAQC VISUAL DATE'
+                ]
 
     engcols = allcols[:allcols.index("Comment")+1]
     engallcols = allcols[:allcols.index("W STAMP")+1]
@@ -334,6 +354,11 @@ if __name__ == '__main__':
         still_conflict = still_conflict[still_conflict["_merge"] == "right_only"]
         still_conflict = still_conflict[engallcols]
         engqc = syncronized(engdata_all, md_afi_data[qccols+["PK"]], "PK", "PK", 'left')
+
+        logging.info("Fixing Datetime Format")
+        md = fixdate(md, datecols)
+        md_for_qc = fixdate(md_for_qc, datecols)
+        md_for_ppc = fixdate(md_for_ppc, datecols)
 
         logging.info("Writing Data")
         write_data(md, masterdata_path, sheet_name, 2, 1, "PK")
