@@ -55,11 +55,11 @@ The program consists of 4 sub-products :
 - Edit startdashboard.bat and startdashboard.vbs
   ![presentasi 1 timas (22)](https://github.com/user-attachments/assets/c7e1eea0-3443-4b36-9ed0-105ed64efd99)
 - Run startdashboard.vbs manually. You can make the dashboard runs automatically after the server computer is powered on using Win + r, shell:startup, and make a shortcut to startdashboard.vbs.
--  
-
-
-
-
+- You can now access the dashboard by navigating to your_ip:8501 (Streamlit runs on port 8501 by default).
+### IMPORTANT NOTES
+- Don't forget to open port 8501 in the firewall to ensure the dashboard can be accessed locally within the office network.
+- If you want the dashboard to be accessible online, you can use [Port Forwarding](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide) or a hosting service.
+- Done, Awesome, now you have a dashboard 🎉🎉🎉
 
 ## Limitation, Restriction, and Disclaimer
 - Data Structure </br>
@@ -67,4 +67,23 @@ The program consists of 4 sub-products :
 - Data Consistency </br>
   Consistency is required in data entry (such as naming materials and lines) when inputting data. Differences and inconsistencies in the data will cause the dashboard to be unrepresentative and misleading.
 - Bugs and errors </br>
-  Please note that this program is still in the Alpha Version (even not yet in Beta Version). Errors and bugs are highly likely to occur during operation. Feedback on errors and bugs from users is crucial for the development of this program.
+  Please note that this program is still in the Beta version. Errors and bugs are highly likely to occur during operation. Feedback on errors and bugs from users is crucial for the development of this program.
+
+## Miscellaneous
+- Maintenance </br>
+  It is possible that each project requires different components and values to be monitored. <strong>Since this program is open-source, each project’s IT team can modify the source code according to the management's needs.</strong>
+- Log Monitoring </br>
+  ![image](https://github.com/user-attachments/assets/40192351-5afa-4622-966d-985e7185bab0)</br>
+  It is highly recommended to check the program logs daily to monitor if there are any errors when the program runs during the early hours. You can find logs on /dist/pipeline_log_main.txt
+- Rollback </br>
+  The rollback feature (to restore Excel data to a few days back) is currently under development.
+
+## Further Enhancements
+- Potential use of Apache Airflow. </br>
+  Currently, the pipeline is packaged in a .exe file, which makes data pipeline monitoring and maintenance difficult. The use of Apache Airflow is expected to simplify the development and maintenance of scripts and the pipeline.
+- Potential use of Nginx (or other webserver). </br>
+
+## Ownership
+TIMAS SUPLINDO  
+Developed by [Auvi. A.](https://www.linkedin.com/in/auviamril/) <br/>
+Assisted by Github Copilot and OpenAI (Big Thanks to Elon Musk)
