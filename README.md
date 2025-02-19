@@ -1,4 +1,3 @@
-![presentasi 1 timas (18)](https://github.com/user-attachments/assets/60e0a739-f740-4d8f-bc2b-175dc9e1afe8)# PIPING MONITORING BETA VERSION
 This program is developed to monitor PIPING projects at TIMAS SUPLINDO. It will synchronize the databases of the Engineering, QAQC, and PPC departments, while providing visualizations through a dashboard.
 
 ## About This Program
