@@ -4,7 +4,7 @@ This program is developed to monitor PIPING projects at TIMAS SUPLINDO. It will 
 ## About This Program
 The program consists of 4 sub-products :
 - Initiator App <br />
-  The initiator app is located in the root directory ./installment.py. This initiator will set up the working directory for each administrator and data entry personnel from the Engineering, QAQC, and PPC departments, as well as provide pre-filled templates ready for use. Additionally, it will generate an automated script for synchronization to support the operation of the dashboard.
+  The initiator app is located in the root directory [`./installment.py.`](./installment.py) This initiator will set up the working directory for each administrator and data entry personnel from the Engineering, QAQC, and PPC departments, as well as provide pre-filled templates ready for use. Additionally, it will generate an automated script for synchronization to support the operation of the dashboard.
 - Microsoft Excel Template <br />
   The Microsoft Excel template is a workbook ready to be used and directly filled in accordance with the predefined columns and sheets.
 - Script (Python and .exe) <br />
