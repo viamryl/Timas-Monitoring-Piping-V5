@@ -1,4 +1,4 @@
-# PIPING MONITORING ALPHA VERSION
+# PIPING MONITORING BETA VERSION
 This program is developed to monitor PIPING projects at TIMAS SUPLINDO. It will synchronize the databases of the Engineering, QAQC, and PPC departments, while providing visualizations through a dashboard.
 
 ## About This Program
@@ -31,14 +31,14 @@ The program consists of 4 sub-products :
 - Github Account (Optional)
 
 ## How to Run
-- Install Python 3 and ensure that the Pyton path and PIP path are added to the environment variables.
-- Clone / Pull this repository
-- Install dependency on [./requirements.txt](./requirements.txt)
-
+- Install Python 3 and ensure that the <strong>Pyton path and PIP path are added to the environment variables.</strong>
+- Clone or Pull this repository
+- Install dependency on [`./requirements.txt`](./requirements.txt)
+- Run [`./installment.py`](./installment.py) using command `python.exe ./installment.py` on terminal.
 
 ## Limitation, Restriction, and Disclaimer
 - Data Structure </br>
-  This program still uses Microsoft Excel for data input. Any changes to the data structure (especially in the columns), such as adding columns, removing columns, renaming columns, or adding headers to the Excel sheet, will cause errors during synchronization.
+  This program still uses Microsoft Excel for data input. Any changes to the data structure (especially in the columns), such as adding columns, removing columns, renaming columns, renaming sheet, renaming file name, or adding headers to the Excel sheet, will cause errors during synchronization.
 - Data Consistency </br>
   Consistency is required in data entry (such as naming materials and lines) when inputting data. Differences and inconsistencies in the data will cause the dashboard to be unrepresentative and misleading.
 - Bugs and errors </br>
