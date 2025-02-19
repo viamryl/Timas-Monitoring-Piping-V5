@@ -318,6 +318,7 @@ if __name__ == '__main__':
         md_claim_data = syncronized(md_afi_data,ppc_claim, "PK", "PK", "left")
         md = md_claim_data[allcols + ["PK"]]
         md_for_ppc = syncronized(ppc_without_afi, md[qccols+["PK"]], "PK", "PK", 'left')
+        md_for_ppc = md_for_ppc[allcols]
         md_for_qc = md_afi_data[qcallcols]
         conflict = pd.merge(ppc_conflict, pd.DataFrame(engdata_joint["PK"]), on = "PK", how = 'outer', indicator = True)
         conflict = conflict[conflict["_merge"] == 'left_only']
