@@ -61,6 +61,17 @@ The program consists of 4 sub-products :
 - If you want the dashboard to be accessible online, you can use [Port Forwarding](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide) or a hosting service.
 - Done, Awesome, now you have a dashboard 🎉🎉🎉
 
+## Do & Don't
+### Do
+- Fill the data consistently
+### Don't
+- Renaming the file
+- Renaming the sheet
+- Renaming the folder (including full path)
+- Renaming columns
+- Adding row above the columns
+- Moving file directory
+
 ## Limitation, Restriction, and Disclaimer
 - Data Structure </br>
   This program still uses Microsoft Excel for data input. Any changes to the data structure (especially in the columns), such as adding columns, removing columns, renaming columns, renaming sheet, renaming file name, or adding headers to the Excel sheet, will cause errors during synchronization.
