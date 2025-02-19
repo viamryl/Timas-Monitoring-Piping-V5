@@ -107,6 +107,7 @@ def production(df,dashboardpath,filename,dropdup = None,dropn = None, instance =
     if instance == False:
         df.drop_duplicates(subset=dropdup,keep = "first", inplace = True)
         df.dropna(subset = dropn, inplace=True)
+        df = df[~df[dropdup].astype(str).str.startswith('nan')]
         df.to_csv(f"{dashboardpath}/{filename}.csv", index=False)
     else : 
         df.to_csv(f"{dashboardpath}/{filename}.csv", index=False)
@@ -341,9 +342,9 @@ if __name__ == '__main__':
         production(md, dashboard_path, "Ready for dashboard", "PK", "PK", False)
         production(engdata_all, dashboard_path, "Engineer for dashboard", "PK", "JOINT NO")
         production(conflict, dashboard_path, "Conflict for dashboard", "PK", "PK",False)
-        production(mto_data, dashboard_path, "MTO for dashboard")
-        production(mir_data, dashboard_path, "MIR for dashboard")
-        production(pwroks_data, dashboard_path, "Pworks for dashboard")
+        production(mto_data, dashboard_path, "MTO for dashboard", instance=True)
+        production(mir_data, dashboard_path, "MIR for dashboard", instance=True)
+        production(pwroks_data, dashboard_path, "Pworks for dashboard", instance=True)
 
         logging.info("Aman bro no error")
         logging.info("TIMAS SUPLINDO - Developed by Auvi A")
