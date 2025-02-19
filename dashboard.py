@@ -43,11 +43,7 @@ st.markdown("""
                 text-align: center;
                 justify-content: center;
             }
-<<<<<<< HEAD
-
-=======
                     
->>>>>>> 5ba678e1d505e3d6975eb538983077419e972311
             [data-testid="stMetricDelta"] svg {
                 display: none;
             }
@@ -134,15 +130,15 @@ if not check_password():
 
 def rtdata(source_plant):
     plant = ["NaOH", "C6H6", "Crude Oil"]
-    mto_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/MTO RT.csv", 
-                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/MTO RT.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MTO RT.csv"]
-    mir_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/MIR RT.csv",
-                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/MIR RT.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR RT.csv"]
-    pworks_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/Pworks RT.csv",
-                   "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/Pworks RT.csv",
-                   "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Pworks RT.csv"]
+    mto_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MTO for dashboard RT.csv", 
+                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MTO for dashboard RT.csv",
+                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MTO for dashboard RT.csv"]
+    mir_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MIR for dashboard RT.csv",
+                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MIR for dashboard RT.csv",
+                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR for dashboardRT.csv"]
+    pworks_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Pworks for dashboard RT.csv",
+                   "D://Dashboard/Pertamina/Monitoring Piping C6H6/Pworks for dashboardRT.csv",
+                   "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Pworks for dashboard RT.csv"]
 
     plant_index = plant.index(source_plant)
 
@@ -156,15 +152,15 @@ def rtdata(source_plant):
 
 def lastdaydata(source_plant):
     plant = ["NaOH", "C6H6", "Crude Oil"]
-    mto_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/MTO for Dashboard.csv",
-                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/MTO for Dashboard.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MTO for Dashboard.csv"]
-    mir_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/MIR for Dashboard.csv",
-                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/MIR for Dashboard.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR for Dashboard.csv"]
-    pworks_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/Piping Works for Looker.csv",
-                   "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/Piping Works for Looker.csv",
-                   "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Piping Works for Looker.csv"]
+    mto_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MTO for dashboard.csv",
+                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MTO for dashboard.csv",
+                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MTO for dashboard.csv"]
+    mir_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MIR for dashboard.csv",
+                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MIR for dashboard.csv",
+                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR for dashboard.csv"]
+    pworks_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/PWorks for dashboard.csv",
+                   "D://Dashboard/Pertamina/Monitoring Piping C6H6/PWorks for dashboard.csv",
+                   "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/PWorks for dashboard.csv"]
 
     plant_index = plant.index(source_plant)
 
@@ -179,12 +175,12 @@ def lastdaydata(source_plant):
 def piprog_lastday(source_plant, dashboard = "main"):
     plant = ["NaOH", "C6H6", "Crude Oil"]
     if dashboard == "main":
-        piping_progress_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/Ready for dashboard.csv",
-                                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/Ready for dashboard.csv",
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Ready for dashboard.csv",
+                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Ready for dashboard.csv",
                                 "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Ready for dashboard.csv"]
     elif dashboard == "eng":
-        piping_progress_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/Engineer for dashboard.csv",
-                                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/Engineer for dashboard.csv",
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Engineer for dashboard.csv",
+                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Engineer for dashboard.csv",
                                 "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Engineer for dashboard.csv"]
     
     plant_index = plant.index(source_plant)
@@ -195,13 +191,13 @@ def piprog_lastday(source_plant, dashboard = "main"):
 def piprog_newest(source_plant, dashboard = "main"):
     plant = ["NaOH", "C6H6", "Crude Oil"]
     if dashboard == "main":
-        piping_progress_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/Progress RT.csv",
-                                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/Progress RT.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Progress RT.csv"]
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Ready for dashboard RT.csv",
+                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Ready for dashboard RT.csv",
+                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Ready for dashboard RT.csv"]
     elif dashboard == "eng":
-        piping_progress_path = ["//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping NaOH/Eng RT.csv",
-                                "//192.168.13.5/5. ppc/AUVI/Dashboard/Pertamina/Monitoring Piping C6H6/Eng RT.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Eng RT.csv"]
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Engineer for dashboard RT.csv",
+                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Engineer for dashboard RT.csv",
+                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Engineer for dashboard RT.csv"]
     
     plant_index = plant.index(source_plant)
     piping_progress = pd.read_csv(piping_progress_path[plant_index])
