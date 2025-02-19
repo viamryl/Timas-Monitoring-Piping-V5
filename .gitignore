@@ -6,3 +6,4 @@ DB MATL BISMILLAH FINAL.xlsx
 *.exe
 *.ipynb
 *.json
+!requirements.txt
