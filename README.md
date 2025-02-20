@@ -33,8 +33,8 @@ The program consists of 4 sub-products :
 ## How to Run
 - Install Python 3 and ensure that the <strong>Pyton path and PIP path are added to the environment variables.</strong>
 - Clone or Pull this repository
-- Install dependency on [`./requirements.txt`](./requirements.txt)
-- Run [`./installment.py`](./installment.py) using command `python.exe ./installment.py` on terminal.
+- Install dependency on [`./requirements.txt`](./requirements.txt) by running the command `pip install -r requirements.txt`
+- Run [`./installment.py`](./installment.py) by running the command `python.exe ./installment.py` on terminal.
 - Choose work directories
   <p align='left'><img src = "https://github.com/user-attachments/assets/8624a761-6d6f-48a9-95a4-3fe76380ef4d", width = 550> </br>
   this action will generate .exe script
