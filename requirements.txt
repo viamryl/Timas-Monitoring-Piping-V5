@@ -1,5 +1,5 @@
 numpy==2.2.3
-openpyxl==3.1.2
-pandas==2.0.2
-st-theme==1.2.3
-streamlit==1.41.1
+openpyxl==3.1.5
+pandas==2.2.3
+st_theme==1.2.3
+streamlit==1.42.0
