@@ -5,6 +5,7 @@ import hmac
 import time
 import os
 import datetime
+from streamlit_theme import st_theme
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -59,7 +60,7 @@ st.markdown("""
                 justify-content: center;
             }
             [data-testid="stSidebarHeader"]{
-                padding-bottom: 0rem;
+                padding-bottom: 0.5rem;
             }
 
             [data-testid="stPopoverBody"] {
@@ -226,7 +227,11 @@ if "selected_mir" not in st.session_state:
     st.session_state.selected_mir = "All"
 
 with st.sidebar:
-    st.image("assets/timaspanjang.jpg")
+    theme = st_theme()["base"]
+    if theme == "dark":
+        st.image("assets/timasputih.png")
+    else : 
+        st.image("assets/timaspanjang.png")
     st.title("Options")
     
     plant = st.selectbox("Choose Plant", options = ["NaOH", "C6H6", "Crude Oil"])
@@ -264,7 +269,7 @@ with st.sidebar:
         st.rerun()
 
     last_mondified = datetime.datetime.fromtimestamp(os.path.getmtime(path)).strftime("%b %d, %Y %H:%M:%S")
-    st.write(f"Last Pull <> {last_mondified}")
+    st.write(f"Last Pull ⇥ {last_mondified}")
 
 mto_pure = mto
 piping_progress["TOTAL"] = piping_progress["DIA-INCH PLAN SW"] + piping_progress["DIA-INCH PLAN FW"]
