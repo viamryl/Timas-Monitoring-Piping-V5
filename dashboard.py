@@ -64,7 +64,7 @@ st.markdown("""
             }
 
             [data-testid="stPopoverBody"] {
-                width: 580px !important;
+                width: 680px !important;
                 max-width: 1500px !important;
                 height: 600px !important;
                 overflow: auto;
