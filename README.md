@@ -36,7 +36,7 @@ The program consists of 4 sub-products :
 - Install dependency on [`./requirements.txt`](./requirements.txt) by running the command `pip install -r requirements.txt`
 - Run [`./installment.py`](./installment.py) by running the command `python.exe ./installment.py` on terminal.
 - Choose work directories
-  <p align='left'><img src = "https://github.com/user-attachments/assets/8624a761-6d6f-48a9-95a4-3fe76380ef4d", width = 550> </br>
+  <p align='left'><img src = "https://github.com/user-attachments/assets/f9dbb3cd-5739-402b-91a1-959aa6881f70", width = 550> </br>
   this action will generate .exe script
   <p align='left'><img src = "https://github.com/user-attachments/assets/8de41862-eab8-4851-b491-246644607bd9", width = 700> </br>
   and the Microsoft Excel template is already available in the selected directory and ready to be filled out. 
