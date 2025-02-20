@@ -38,12 +38,12 @@ The program consists of 4 sub-products :
 - Choose work directories
   <p align='left'><img src = "https://github.com/user-attachments/assets/f9dbb3cd-5739-402b-91a1-959aa6881f70", width = 550> </br>
   this action will generate .exe script
-  <p align='left'><img src = "https://github.com/user-attachments/assets/8de41862-eab8-4851-b491-246644607bd9", width = 700> </br>
+  <p align='left'><img src = "https://github.com/user-attachments/assets/63e6b33c-371e-4395-a158-03be75648f07", width = 700> </br>
   and the Microsoft Excel template is already available in the selected directory and ready to be filled out. 
-  <p align='left'><img src = "https://github.com/user-attachments/assets/09514382-189d-4aca-9e12-b905341dbd86", width = 650> </br>
+  <p align='left'><img src = "https://github.com/user-attachments/assets/93384150-66c8-492f-8af8-c10f748db6b1", width = 650> </br>
   <strong>Important! You are required to fill in the monitoring data in the provided Excel file. It is strictly prohibited to rename the file, move the file to another folder, or work on data input in a different Excel file, as this may cause synchronization issues.</strong>
 - Run .exe script for the first time manually
-  <p align='left'><img src = "https://github.com/user-attachments/assets/8de41862-eab8-4851-b491-246644607bd9", width = 700> </br>
+  <p align='left'><img src = "https://github.com/user-attachments/assets/1c66e2a7-e22d-4a64-ab37-d0c90d611d4b", width = 700> </br>
 - Set up task sheduler both for puller.exe and syncronization.exe for each plant
   <p align='left'><img src = "https://github.com/user-attachments/assets/b1071e66-fba7-4f4b-a88d-3e7dde5ff6d9", width = 700> </br>
   Set the task scheduler to run daily. It is recommended to schedule syncronization.exe to run once every day at 1:00 AM and puller.exe every 10 minutes. Then, select the executable file that was generated earlier.</br>
