@@ -23,11 +23,12 @@ The program consists of 4 sub-products :
   - The server computer is running 24 hours a day, continuously
   - Intel Core i3 9th gen or above
   - At least 8 GB RAM (Synchronization.exe requires a large amount of RAM resources)
-  - Windows 10 or above
+  - Windows 10 Pro/Enterprise/Server or above
   - SSD (Recommended)
 - [Python 3.11.3](https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe) or above (Mandatory)
 - [Git](https://github.com/git-for-windows/git/releases/download/v2.48.1.windows.1/Git-2.48.1-64-bit.exe) (Optional)
 - [Text Editor](https://code.visualstudio.com/download) (Optional)
+- [Windows terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US) (Optional)
 - Github Account (Optional)
 
 ## How to Run
