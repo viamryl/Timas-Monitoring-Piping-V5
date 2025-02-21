@@ -6,13 +6,17 @@ import time
 import os
 import datetime
 from streamlit_theme import st_theme
+from streamlit_extras.bottom_container import bottom
 
 locale.setlocale(locale.LC_ALL, '')
 
 st.set_page_config(layout="wide",
                    page_title="PIPING MONITORING",
                    initial_sidebar_state="expanded",
-                   page_icon = "assets/timaslogo.ico")
+                   page_icon = "assets/timaslogo.ico",
+                   menu_items =  {
+                       "about" : "### TIMAS SUPLINDO\n\n*Developed by Auvi Amril*\n\n*https://linkedin.com/in/auviamril*\n\n\n\n"
+                   })
 
 st.markdown("""
             <style>
@@ -255,7 +259,6 @@ with st.sidebar:
         elif datasource == "Newest Data":
             piping_progress = piprog_newest(plant, dashboard="eng")
     st.container(height = 130, border = False)
-
     if st.button("Reset Filter"):
         st.session_state.selected_line = "All"
         st.session_state.selected_joint = "All"
