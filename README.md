@@ -32,6 +32,7 @@ The program consists of 4 sub-products :
 - Github Account (Optional)
 
 ## How to Run
+Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxhkOovBEi7q2EUmgueQ0R/view?usp=sharing)
 - Install Python 3 and ensure that the <strong>Pyton path and PIP path are added to the environment variables.</strong>
 - Clone or Pull this repository
 - Install dependency on [`./requirements.txt`](./requirements.txt) by running the command `pip install -r requirements.txt`
