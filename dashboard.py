@@ -317,10 +317,10 @@ right_date.columns = ["Date"]
 
 unfitted_df = piping_progress[piping_progress['FIT-UP RECORD DATE'].isnull()][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
 unwelded_df = piping_progress[piping_progress['WELDING RECORD DATE'].isnull()][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
-ssdone_df = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].notna()].groupby('LINE NO').agg(SUB_AREA=('Sub Area', 'first'), TOTAL=('TOTAL', 'sum'))
-csdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].notna()].groupby('LINE NO').agg(SUB_AREA=('Sub Area', 'first'), TOTAL=('TOTAL', 'sum'))
-ssnotdone_df = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()].groupby('LINE NO').agg(SUB_AREA=('Sub Area', 'first'), TOTAL=('TOTAL', 'sum'))
-csnotdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()].groupby('LINE NO').agg(SUB_AREA=('Sub Area', 'first'), TOTAL=('TOTAL', 'sum'))
+ssdone_df = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].notna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
+csdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].notna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
+ssnotdone_df = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
+csnotdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
 backlog_df = piping_progress.loc[piping_progress["FIT-UP RECORD DATE"].notna() & piping_progress["WELDING RECORD DATE"].isna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
 
 total_joint = piping_progress.shape[0]
@@ -465,7 +465,7 @@ with afi_col:
     afi_container.subheader("AFI MONITORING", anchor = False)
 
     afi_container.metric(label = "AFI F/U Approved (Joint)", value = f"{afifujoint:,.0f}",delta = "Unapproved : {:,.0f} from {:,.0f}".format(afifujoint_notyet, total_joint), delta_color="inverse", border = True)
-    afi_container   .metric(label = "AFI F/U Approved (ID)", value = f"{afifuid:,.2f}",delta = "Unapproved : {:,.2f} from {:,.2f}".format(afifuid_notyet, total_id), delta_color="inverse", border = True)
+    afi_container.metric(label = "AFI F/U Approved (ID)", value = f"{afifuid:,.2f}",delta = "Unapproved : {:,.2f} from {:,.2f}".format(afifuid_notyet, total_id), delta_color="inverse", border = True)
     afi_container.metric(label = "AFI Visual Approved (Joint)", value = f"{afivisjoint:,.0f}",delta = "Unapproved : {:,.0f} from {:,.0f}".format(afivisjoint_notyet, total_joint), delta_color="inverse", border = True)
     afi_container.metric(label = "AFI Visual Approved (ID)", value = f"{afivisid:,.2f}",delta = "Unapproved : {:,.2f} from {:,.2f}".format(afivisid_notyet, total_id), delta_color="inverse", border = True)
     
