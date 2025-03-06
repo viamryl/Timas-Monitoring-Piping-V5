@@ -211,7 +211,7 @@ progress_bar = ttk.Progressbar(root, orient="horizontal", length=400, mode="dete
 progress_bar.grid(row=8, column=0, columnspan=3, pady=10)
 
 status_label = tk.Label(root, text="Idle", anchor="w")
-status_label.grid(row=9, column=0, columnspan=3, sticky="w", padx=10)
+status_label.grid(row=10, column=0, columnspan=3, sticky="w", padx=10)
 
 save_button = tk.Button(root, text="Save", command=save_and_start, bg="green", fg="white")
 save_button.grid(row=9, column=0, columnspan=3, pady=10)
