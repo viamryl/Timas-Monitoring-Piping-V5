@@ -7,3 +7,4 @@ DB MATL BISMILLAH FINAL.xlsx
 *.ipynb
 *.json
 !requirements.txt
+dump.py
