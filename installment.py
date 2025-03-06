@@ -31,6 +31,7 @@ def get_unc_path(local_path):
                 if match:
                     unc_path = match.group(1).strip(" /").replace("\\", "/")  
                     converted_path = local_path.replace(drive, unc_path)
+                    print(f"UNC path ditemukan. Menggunakan path {converted_path}")
                     return converted_path
 
         print(f"Drive {drive} tidak ditemukan di output `net use`.")
@@ -107,37 +108,33 @@ def start_init():
     engpath = f"{data['directories'][0]}/Monitoring Piping {area} ENG"
     qcpath = f"{data['directories'][1]}/Monitoring Piping {area} QC"
     ppcpath = f"{data['directories'][2]}/Monitoring Piping {area} PPC"
-    dashboard_path = f"{data['directories'][3]}/{project}/Monitoring Piping {area}"
+    mhpath = f"{data['directories'][3]}/Monitoring Piping {area} MATERIAL HANDLING"
+    dashboard_path = f"{data['directories'][4]}/{project}/Monitoring Piping {area}"
 
     masterdata_path = f"{engpath}/Master Data"
-    stagingdata_path = f"{qcpath}/Staging Area"
-    production_path = f"{ppcpath}/Production"
 
     mto_data = f"{engpath}/MTO {area}.xlsx"
-    mir_data = f"{engpath}/MIR {area}.xlsx"
-    pworks_data = f"{qcpath}/Piping Works Database {area}.xlsx"
-
+    mir_data = f"{mhpath}/MIR {area}.xlsx"
     engdata = f"{engpath}/Monitoring Piping {area} ENG.xlsx"
     qcdata = f"{qcpath}/Monitoring Piping {area} QC.xlsx"
     ppcdata = f"{ppcpath}/Monitoring Piping {area} PPC.xlsx"
+    mhdata = f"{mhpath}/Monitoring Piping {area} PPC.xlsx"
 
     os.makedirs(f"{masterdata_path}/BACKUP")
-    os.makedirs(f"{stagingdata_path}/BACKUP")
-    os.makedirs(f"{production_path}/BACKUP")
+    os.makedirs(f"{qcpath}")
+    os.makedirs(f"{ppcpath}")
+    os.makedirs(f"{mhpath}")
     os.makedirs(f"{dashboard_path}")
 
     FILE_ATTRIBUTE_HIDDEN = 0x02
     ctypes.windll.kernel32.SetFileAttributesW(masterdata_path, FILE_ATTRIBUTE_HIDDEN)
-    ctypes.windll.kernel32.SetFileAttributesW(stagingdata_path, FILE_ATTRIBUTE_HIDDEN)
-    ctypes.windll.kernel32.SetFileAttributesW(production_path, FILE_ATTRIBUTE_HIDDEN)
 
     shutil.copy("Template/Piping Template for ENG.xlsx", f"{engpath}/Monitoring Piping {area} ENG.xlsx")
     shutil.copy("Template/Piping Template for QC.xlsx", f"{qcpath}/Monitoring Piping {area} QC.xlsx")
     shutil.copy("Template/Piping Template for PPC.xlsx", f"{ppcpath}/Monitoring Piping {area} PPC.xlsx")
 
-    shutil.copy("Template/MTO TEMPLATE.xlsx", f"{mto_data}")
-    shutil.copy("Template/MIR Template.xlsx", f"{mir_data}")
-    shutil.copy("Template/Piping Works Database QC.xlsx", f"{pworks_data}")
+    shutil.copy("Template/Piping Template for MTO.xlsx", f"{mto_data}")
+    shutil.copy("Template/Piping Template for MIR.xlsx", f"{mir_data}")
 
     shutil.copy("Template/masterdata template.xlsx", f"{masterdata_path}/masterdata.xlsx")
 
@@ -159,11 +156,8 @@ def start_init():
                          .replace(placeholder_ppc, f"{ppcdata}") \
                          .replace(placeholder_dashboard, f"{dashboard_path}") \
                          .replace("MASTERDATA_PLACEHOLDER", f"{masterdata_path}") \
-                         .replace("STAGINGDATA_PLACEHOLDER", f"{stagingdata_path}") \
-                         .replace("PRODUCTION_PLACEHOLDER", f"{production_path}") \
                          .replace("MTO_PLACEHOLDER", f"{mto_data}") \
                          .replace("MIR_PLACEHOLDER", f"{mir_data}") \
-                         .replace("PWORKS_PLACEHOLDER", f"{pworks_data}")
         
         file.write(new_content)
 
@@ -177,7 +171,6 @@ def start_init():
                          .replace(placeholder_dashboard, f"{dashboard_path}") \
                          .replace("MTO_PLACEHOLDER", f"{mto_data}") \
                          .replace("MIR_PLACEHOLDER", f"{mir_data}") \
-                         .replace("PWORKS_PLACEHOLDER", f"{pworks_data}")
         
         file.write(new_content)
 
@@ -221,7 +214,7 @@ status_label = tk.Label(root, text="Idle", anchor="w")
 status_label.grid(row=9, column=0, columnspan=3, sticky="w", padx=10)
 
 save_button = tk.Button(root, text="Save", command=save_and_start, bg="green", fg="white")
-save_button.grid(row=7, column=0, columnspan=3, pady=10)
+save_button.grid(row=9, column=0, columnspan=3, pady=10)
 
 tk.Label(root, text="Project Name:").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 project_name_entry = tk.Entry(root, width=50)
@@ -233,7 +226,7 @@ area_name_entry.grid(row=1, column=1, padx=10, pady=5)
 
 tk.Label(root, text="C A U T I O N !! \nIt highly reccomended using UNC PATH (//192.168.0.0/path/to/dir) \nrather than using mounted path (Z://path/to/dir). \nYou can copy paste the path to entries below!").grid(row=2, column=1, sticky="w", padx=10, pady=5)
 
-dirlist = ['Engineer', 'QAQC', 'PPC', 'DASHBOARD']
+dirlist = ['Engineer', 'QAQC', 'PPC', 'MATERIAL HANDLING', 'DASHBOARD']
 dir_entries = []
 for i, label in enumerate(dirlist):
     tk.Label(root, text=f"{label} Directory:").grid(row=3+i, column=0, sticky="w", padx=10, pady=5)
@@ -242,7 +235,7 @@ for i, label in enumerate(dirlist):
     tk.Button(root, text="Browse", command=lambda e=dir_entry: browse_directory(e)).grid(row=3+i, column=2, padx=10, pady=5)
     dir_entries.append(dir_entry)
 
-tk.Button(root, text="Save", command=save_and_start, bg="green", fg="white").grid(row=7, column=0, columnspan=3, pady=10)
+tk.Button(root, text="Save", command=save_and_start, bg="green", fg="white").grid(row=9, column=0, columnspan=3, pady=10)
 
 root.mainloop()
 
