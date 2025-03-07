@@ -139,59 +139,39 @@ if not check_password():
     st.stop()
 
 def rtdata(source_plant):
-    plant = ["NaOH", "C6H6", "Crude Oil"]
-    mto_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MTO for dashboard RT.csv", 
-                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MTO for dashboard RT.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MTO for dashboard RT.csv"]
-    mir_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MIR for dashboard RT.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MIR for dashboard RT.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR for dashboard RT.csv"]
-    pworks_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Pworks for dashboard RT.csv",
-                   "D://Dashboard/Pertamina/Monitoring Piping C6H6/Pworks for dashboard RT.csv",
-                   "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Pworks for dashboard RT.csv"]
+    plant = ["Crude"]
+    mto_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/MTO for dashboard RT.csv"]
+    mir_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/MIR for dashboard RT.csv"]
 
     plant_index = plant.index(source_plant)
 
     mto = pd.read_csv(mto_path[plant_index])
     mir = pd.read_csv(mir_path[plant_index])
-    pworks = pd.read_csv(pworks_path[plant_index])
 
     path = mto_path[plant_index]
 
-    return mto, mir, pworks, path
+    return mto, mir, path
 
 def lastdaydata(source_plant):
-    plant = ["NaOH", "C6H6", "Crude Oil"]
-    mto_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MTO for dashboard.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MTO for dashboard.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MTO for dashboard.csv"]
-    mir_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/MIR for dashboard.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping C6H6/MIR for dashboard.csv",
-                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/MIR for dashboard.csv"]
-    pworks_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/PWorks for dashboard.csv",
-                   "D://Dashboard/Pertamina/Monitoring Piping C6H6/PWorks for dashboard.csv",
-                   "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/PWorks for dashboard.csv"]
+    plant = ["Crude"]
+    mto_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/MTO for dashboard.csv"]
+    mir_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/MIR for dashboard.csv"]
 
     plant_index = plant.index(source_plant)
 
     mto = pd.read_csv(mto_path[plant_index])
     mir = pd.read_csv(mir_path[plant_index])
-    pworks = pd.read_csv(pworks_path[plant_index])
 
     path = mto_path[plant_index]
 
-    return mto, mir, pworks, path
+    return mto, mir, path
 
 def piprog_lastday(source_plant, dashboard = "main"):
-    plant = ["NaOH", "C6H6", "Crude Oil"]
+    plant = ["Crude"]
     if dashboard == "main":
-        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Ready for dashboard.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Ready for dashboard.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Ready for dashboard.csv"]
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/Ready for dashboard.csv"]
     elif dashboard == "eng":
-        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Engineer for dashboard.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Engineer for dashboard.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Engineer for dashboard.csv"]
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/Engineer for dashboard.csv"]
     
     plant_index = plant.index(source_plant)
     piping_progress = pd.read_csv(piping_progress_path[plant_index])
@@ -199,15 +179,11 @@ def piprog_lastday(source_plant, dashboard = "main"):
     return piping_progress
 
 def piprog_newest(source_plant, dashboard = "main"):
-    plant = ["NaOH", "C6H6", "Crude Oil"]
+    plant = ["Crude"]
     if dashboard == "main":
-        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Ready for dashboard RT.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Ready for dashboard RT.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Ready for dashboard RT.csv"]
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/Ready for dashboard RT.csv"]
     elif dashboard == "eng":
-        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping NaOH/Engineer for dashboard RT.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping C6H6/Engineer for dashboard RT.csv",
-                                "D://Dashboard/Pertamina/Monitoring Piping Crude Oil/Engineer for dashboard RT.csv"]
+        piping_progress_path = ["D://Dashboard/Pertamina/Monitoring Piping Crude/Engineer for dashboard RT.csv"]
     
     plant_index = plant.index(source_plant)
     piping_progress = pd.read_csv(piping_progress_path[plant_index])
@@ -246,13 +222,13 @@ with cons_tab:
             st.image("assets/timaspanjang.png")
         st.title("Options")
         
-        plant = st.selectbox("Choose Plant", options = ["NaOH", "C6H6", "Crude Oil"])
+        plant = st.selectbox("Choose Plant", options = ["Crude"])
 
         datasource = st.selectbox("Choose Data Source", options = ["Last Day Data", "Newest Data"])
         if datasource == "Last Day Data":
-            mto, mir, pworks, path = lastdaydata(plant)
+            mto, mir, path = lastdaydata(plant)
         elif datasource == "Newest Data":
-            mto, mir, pworks, path = rtdata(plant)
+            mto, mir, path = rtdata(plant)
 
         dashboard = st.radio(label = "Choose Dashboard",options = ["Main Dashboard", "Engineer Dashboard"], label_visibility="visible", horizontal=False)
 
@@ -312,15 +288,14 @@ with cons_tab:
 
     if selected_line != "All":
         mto = mto[mto["LINE NO"] == selected_line]
-        pworks = pworks[pworks["LINE NO"] == selected_line]
     else:
         mto = mto  # Tampilkan semua jika "All"
-        pworks = pworks
+
 
     #CONSTRUCTION
-    left_date=piping_progress[["LOI Date", 'KOM Date', "Welding Map Date",'Receive Dwg']].head(1).T
+    left_date=piping_progress[["LOI Date", 'KOM Date', 'Schedule']].head(1).T
     left_date.columns = ["Date"]
-    right_date=piping_progress[["Asbuilt Approved","Start Fabric", 'Schedule']].head(1).T
+    right_date=piping_progress[["Welding Map Date", 'Receive Dwg',"Start Fabric"]].head(1).T
     right_date.columns = ["Date"]
 
     unfitted_df = piping_progress[piping_progress['FIT-UP RECORD DATE'].isnull()][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
@@ -329,7 +304,11 @@ with cons_tab:
     csdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].notna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
     ssnotdone_df = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
     csnotdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
+    fw_df = piping_progress[piping_progress["FW / SW"] == "FW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
+    sw_df = piping_progress[piping_progress["FW / SW"] == "SW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
     backlog_df = piping_progress.loc[piping_progress["FIT-UP RECORD DATE"].notna() & piping_progress["WELDING RECORD DATE"].isna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
+    ss316df = piping_progress[piping_progress["MAT'L LINE"] == "SS 316"]
+    ss304df = piping_progress[piping_progress["MAT'L LINE"] == "SS 304"]
 
     total_joint = piping_progress.shape[0]
     total_id = piping_progress["TOTAL"].sum()
@@ -339,11 +318,17 @@ with cons_tab:
     unfitted_id = unfitted_df["TOTAL"].sum()
     fitted_joint = total_joint - unfitted_joint
     fitted_id = total_id - unfitted_id
+    fw_id = fw_df["TOTAL"].sum()
+    sw_id = sw_df["TOTAL"].sum()
+    ss316 = ss316df.shape[0]
+    ss304 = ss304df.shape[0]
 
     unwelded_joint = unwelded_df.shape[0]
     unwelded_id = unwelded_df["TOTAL"].sum()
     welded_joint = total_joint - unwelded_joint
     welded_id = total_id - unwelded_id
+    fw = len(piping_progress[piping_progress["FW / SW"]=="FW"])
+    sw = len(piping_progress[piping_progress["FW / SW"]=="SW"])
 
     ssline = piping_progress.loc[piping_progress["MAT'L LINE"] != "CS LINE", "LINE NO"].nunique()
     ssdone = (piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].groupby("LINE NO")["WELDING RECORD DATE"].apply(lambda x: x.notna().all())).sum()
@@ -367,17 +352,17 @@ with cons_tab:
     afivisid_notyet = total_id - afivisid
 
     #Material
-    summary_matl = mto_pure.groupby("Standard Matl Name").agg(Total = ("QTY", "sum"), TYPE = ("TYPE", "first"), matl_code = ("TYPE MATERIAL", "first"), sch = ("CLASS / SCH", "first"), size = ("BASE SIZE 1", "first"),item_criteria = ("Standard Matl Name", "first"))
+    summary_matl = mto_pure.groupby("Standard Matl Name").agg(Total = ("QTY", "sum"), TYPE = ("TYPE", "first"), matl_code = ("MATL TYPE", "first"), sch = ("CLASS / SCH", "first"), size = ("BASE SIZE 1", "first"),item_criteria = ("Standard Matl Name", "first"))
     summary_matl = summary_matl[["TYPE", "matl_code", "item_criteria", "sch", "size", "Total"]]
     summary_matl = summary_matl.rename(columns = {"matl_code" : "Matl Code",
                                                 "item_criteria": "Standard Matl Name",
                                                 "sch" : "CLASS / SCH",
                                                 "size" : "Size",
-                                                "Total" : "Total"})
-    summary_matl = summary_matl.sort_values(by = "Total", ascending = False)
+                                                "Total" : "QTY TOTAL"})
+    summary_matl = summary_matl.sort_values(by = "QTY TOTAL", ascending = False)
     summary_matl = summary_matl.reset_index(drop=True)
 
-    summary_mir = mir.groupby("Standard Matl Name").agg(QTY = ("QTY", "sum"),Hauling = ("Hauling", "sum"), item_criteria = ("Standard Matl Name", "first"))
+    summary_mir = mir.groupby("Standard Matl Name").agg(QTY = ("QTY TOTAL", "sum"),Hauling = ("QTY HAULING", "sum"), item_criteria = ("Standard Matl Name", "first"))
     summary_mir = summary_mir.rename(columns = {"item_criteria" : "STANDARD MATL NAME"})
 
     summary_merged = pd.merge(summary_matl,
@@ -385,13 +370,13 @@ with cons_tab:
                         left_on= "Standard Matl Name",
                         right_on = "STANDARD MATL NAME",
                         how = "left")
-    summary_merged["Balance MTO"] =  summary_merged["QTY"] - summary_merged["Total"]
+    summary_merged["Balance MTO"] =  summary_merged["QTY"] - summary_merged["QTY TOTAL"]
     summary_merged["BALANCE MIR"] = summary_merged["Hauling"] - summary_merged["QTY"]
     summary_merged = summary_merged.rename(columns = {"TYPE_x" : "TYPE",
                                                     "CLASS / SCH_x" : "CLASS / SCH",
                                                     "Total" : "MTO Total",
                                                     "QTY" : "MIR Total",
-                                                    "Hauling" : "MIR Hauling"})
+                                                    "QTY HAULING" : "MIR Hauling"})
     summary_merged.drop(columns = "STANDARD MATL NAME", inplace=True)
 
     mir = mir.rename(columns = {"QTY" : "QTY"})
@@ -412,18 +397,18 @@ with cons_tab:
         left_col.dataframe(left_date, width=2000, column_config={"Date" : st.column_config.DatetimeColumn(format="MMMM DD, YYYY")})
         right_col.dataframe(right_date, width=2000, column_config={"Date" : st.column_config.DatetimeColumn(format="MMMM DD, YYYY")})
 
-        joint_col, id_col, line_col = cons_container.columns(3)
-        joint_col.metric(label="Total Joint", value="{:,.0f}".format(total_joint), border=True)
+        id_col, joint_col,  line_col = cons_container.columns(3)
+        joint_col.metric(label="Total Joint", value="{:,.0f}".format(total_joint),delta="FW {:,.0f} | {:,.0f} SW".format(fw, sw), delta_color="inverse",border=True)
         joint_col.metric(label="Fitted Joint", value="{:,.0f}".format(fitted_joint), delta="{:,.0f} Joint Not Fitted Yet".format(unfitted_joint), delta_color="inverse", border=True)
         joint_col.metric(label="Welded Joint", value="{:,.0f}".format(welded_joint), delta= "{:,.0f} Joint Not Welded Yet".format(unwelded_joint), delta_color="inverse", border=True)
         
-        id_col.metric(label="Total ID", value="{:,.2f}".format(total_id), border=True)
+        id_col.metric(label="Total ID", value="{:,.2f}".format(total_id), delta=f"FW {fw_id:,.0f} | {sw_id:,.0f} SW ",delta_color="inverse", border=True)
         id_col.metric(label="Fitted ID", value=f"{fitted_id:,.2f}", delta= f"{unfitted_id:,.2f} ID Not Fitted Yet", delta_color="inverse", border=True)
         id_col.metric(label="Welded ID", value= f"{welded_id:,.2f}",  delta=f"{unwelded_id:,.2f} ID Not Welded Yet", delta_color="inverse", border=True)
         
-        line_col.metric(label="Total Line", value="{:,.0f}".format(total_line), border=True)
-        line_col.metric(label="Stainless Steel Line", value=f"{ssline:,.0f}", delta = f"{ssnotdone:,.0f} Lines Not Done Yet",delta_color="inverse", border=True)
-        line_col.metric(label="Carbon Steel Line", value=f"{csline:,.0f}", delta = f"{csnotdone:,.0f} Lines Not Done Yet", delta_color="inverse", border=True)
+        line_col.metric(label="Total Line", value="{:,.0f}".format(total_line), delta=f"{(ssnotdone+csnotdone):,.0f} Lines Not Done Yet",delta_color = "inverse", border=True)
+        line_col.metric(label="Stainless Steel Line", value=f"{ssline:,.0f}", delta = f"SS 316 {ss316:,.0f} | {ss304:,.0f} SS 304",delta_color="inverse", border=True)
+        line_col.metric(label="Carbon Steel Line", value=f"{csline:,.0f}", border=True)
 
         backlog_container = cons_container.container()
         joint_backlog_col, id_backlog_col = backlog_container.columns(2)
@@ -467,6 +452,162 @@ with cons_tab:
             st.markdown("Unfitted Line & Joint")
             dfcont = st.container(border=True)
             dfcont.dataframe(backlog_df)
+
+    detail_table = st.container(border = True)
+    
+    with detail_table:
+        allcols  =  ['LOI Date',
+                'KOM Date',
+                'Schedule',
+                'Welding Map Date',
+                'Receive Dwg',
+                'Start Fabric',
+                'NS',
+                'AREA',
+                'System',
+                'Priority',
+                'Sub Area',
+                'Drawing No.',
+                'LINE NO',
+                'LINE CODE',
+                "MAT'L LINE",
+                "MAT'L CODE",
+                'PAGE',
+                'REV',
+                'FW / SW',
+                'JOINT TYPE',
+                'JOINT NO',
+                'PIPE SPOOL',
+                'DN',
+                'DIA-INCH PLAN SW',
+                'DIA-INCH PLAN FW',
+                'TOTAL',
+                'Comment',
+                'P LEGEND',
+                'P MATL CODE',
+                'P TYPE',
+                'P MATL TYPE',
+                'P GROUP MATL',
+                'P CLASS / SCH',
+                'P BASE SIZE 1',
+                'P BASE SIZE 2',
+                'P THK 1',
+                'P Standard Matl Name',
+                'P QTY MATL',
+                'P UOM',
+                'P SR / MIR NO',
+                'P SR DATE',
+                'P PIC',
+                'P QTY TOTAL',
+                'P QTY HAULING',
+                'P QTY OUTSTANDING',
+                'P QTY MAPPING',
+                'P MAPPING BALANCE',
+                'S MATL CODE',
+                'S TYPE',
+                'S MATL TYPE',
+                'S GROUP MATL',
+                'S CLASS / SCH',
+                'S BASE SIZE 1',
+                'S BASE SIZE 2',
+                'S THK 1',
+                'S Standard Matl Name',
+                'S QTY MATL',
+                'S UOM',
+                'S SR / MIR NO',
+                'S SR DATE',
+                'S PIC',
+                'S QTY TOTAL',
+                'S QTY HAULING',
+                'S QTY OUTSTANDING',
+                'S QTY MAPPING',
+                'S MAPPING BALANCE',
+                'T MATL CODE',
+                'T TYPE',
+                'T MATL TYPE',
+                'T GROUP MATL',
+                'T CLASS / SCH',
+                'T BASE SIZE 1',
+                'T BASE SIZE 2',
+                'T THK 1',
+                'T Standard Matl Name',
+                'T QTY MATL',
+                'T UOM',
+                'T SR / MIR NO',
+                'T SR DATE',
+                'T PIC',
+                'T QTY TOTAL',
+                'T QTY HAULING',
+                'T QTY OUTSTANDING',
+                'T QTY MAPPING',
+                'T MAPPING BALANCE',
+                'MATL REMARKS',
+                "MIR REMARKS",
+                'FIT-UP RECORD SW',
+                'FIT-UP RECORD FW',
+                'FIT-UP RECORD DATE',
+                'FU SPV',
+                'WELDING RECORD SW',
+                'WELDING RECORD FW',
+                'WELDING RECORD DATE',
+                'W SPV',
+                'W STAMP',
+                'QAQC AFI F/U DATE',
+                'QAQC AFI F/U NO',
+                'QAQC AFI F/U RES',
+                'QAQC VISUAL DATE',
+                'QAQC VISUAL NO',
+                'QAQC VISUAL RES',
+                'PPC CLAIM REPORT FABS 30%',
+                'PPC CLAIM REPORT INSTALL 60%',
+                'PPC CLAIM REPORT PUNCHLIST 10%',
+                'PPC CLAIM REPORT TOTAL',
+                'SUMMARY AFI',
+                'LAST PERIOD',
+                'THIS PERIOD',
+                'CUMM',
+                'Remarks']
+        jointcols = allcols[:allcols.index("Comment") + 1]
+        conscol = allcols[allcols.index("FIT-UP RECORD SW") : allcols.index("W STAMP") + 1]
+        aficol = allcols[allcols.index("QAQC AFI F/U DATE") : allcols.index("QAQC VISUAL DATE") + 1]
+        claimcol = allcols[allcols.index("PPC CLAIM REPORT FABS 30%") : allcols.index("Remarks") + 1]
+        primarymatlcol = allcols[allcols.index("P LEGEND") : allcols.index("P MAPPING BALANCE") + 1]
+        secondarymatlcol = allcols[allcols.index("S MATL CODE") : allcols.index("S MAPPING BALANCE") + 1]
+        tertiarymatlcol = allcols[allcols.index("T MATL CODE") : allcols.index("T MAPPING BALANCE") + 1]
+        detail_table.subheader("LINE DETAIL", anchor = False)
+
+        val = []
+        opt = ["Construction", 'AFI', "Claim", "Primary Material", "Secondary Material", "Tertiary Material"]
+        datashowed= st.pills("Show Data", opt, selection_mode="multi")
+        for i in opt:
+            if i in datashowed:
+                val.append(i)
+        
+        usecols = jointcols
+        for i in val : 
+            match i :
+                case "Construction":
+                    usecols = usecols + conscol
+                case "AFI":
+                    usecols = usecols + aficol
+                case "Claim":
+                    usecols = usecols + claimcol
+                case "Primary Material":
+                    usecols = usecols + primarymatlcol
+                case "Secondary Material":
+                    usecols = usecols + secondarymatlcol
+                case "Tertiary Material":
+                    usecols = usecols + tertiarymatlcol
+        if st.session_state.selected_line != "All":
+                st.dataframe(piping_progress[piping_progress["LINE NO"] == st.session_state.selected_line][usecols], column_config={
+                    "LINE NO" : st.column_config.Column("LINE NO", pinned=True),
+                    "JOINT NO" : st.column_config.Column("JOINT NO", pinned=True)
+                    })
+        else:
+            st.dataframe(piping_progress[usecols], column_config={
+                "LINE NO" : st.column_config.Column("LINE NO", pinned=True),
+                "JOINT NO" : st.column_config.Column("JOINT NO", pinned=True)
+                })
 
     with afi_col:
         afi_container = st.container(border=True)
@@ -528,15 +669,15 @@ with cons_tab:
         else:
             mto = mto
 
-        selected_matl= middleleft_col.selectbox("Choose Material Code", ["All"] + mto["TYPE MATERIAL"].unique().tolist(),key="selected_matl")
+        selected_matl= middleleft_col.selectbox("Choose Material Code", ["All"] + mto["MATL TYPE"].unique().tolist(),key="selected_matl")
         if selected_matl != "All":
-            mto = mto[mto["TYPE MATERIAL"] == selected_matl]
+            mto = mto[mto["MATL TYPE"] == selected_matl]
         else:
             mto = mto
 
-        selected_group= middle_col.selectbox("Choose Material Group", ["All"] + mto["GROUP MATERIAL"].unique().tolist(),key="selected_group")
+        selected_group= middle_col.selectbox("Choose Material Group", ["All"] + mto["GROUP MATL"].unique().tolist(),key="selected_group")
         if selected_group != "All":
-            mto = mto[mto["GROUP MATERIAL"] == selected_group]
+            mto = mto[mto["GROUP MATL"] == selected_group]
         else:
             mto = mto
 
@@ -559,9 +700,9 @@ with cons_tab:
         else:
             mto = mto
 
-        selected_mir = mirfilter_cols.selectbox("Choose MIR Number", ["All"] + mir["MIR NO"].unique().tolist(),key="selected_mir")
+        selected_mir = mirfilter_cols.selectbox("Choose MIR Number", ["All"] + mir["SR / MIR NO"].unique().tolist(),key="selected_mir")
         if selected_mir != "All":
-            mir = mir[mir["MIR NO"] == selected_mir]
+            mir = mir[mir["SR / MIR NO"] == selected_mir]
         else:
             mir = mir
 
@@ -570,7 +711,7 @@ with cons_tab:
         summary_merged = summary_merged[summary_merged["Standard Matl Name"].isin(item_unique)]
 
         matl_container.markdown("##### B.O.M")
-        mto1 = mto[["LINE NO", "TYPE","TYPE MATERIAL",  "Standard Matl Name", "CLASS / SCH", "BASE SIZE 1","BASE SIZE 2", "UOM", "QTY" ]].reset_index(drop = True)
+        mto1 = mto[["LINE NO", "TYPE","MATL TYPE",  "Standard Matl Name", "CLASS / SCH", "BASE SIZE 1","BASE SIZE 2", "UOM", "QTY" ]].reset_index(drop = True)
         event = st.dataframe(mto1, selection_mode="single-row", key = "data", on_select="rerun", width=2000, height = 400, hide_index=True)
 
         try:
@@ -590,30 +731,27 @@ with cons_tab:
         left_col, middleleft_col, middle_col, middleright_col, right_col = matl_container.columns(5)
 
         left_col.metric(label = "MTO QTY", value = "{:,.2f}".format(mto["QTY"].sum()), border = True)
-        middleleft_col.metric(label = "MIR QTY", value = "{:,.2f}".format(mir["QTY"].sum()), border = True)
-        middle_col.metric(label = "Hauling QTY", value = "{:,.2f}".format(mir["Hauling"].sum()), border = True)
-        middleright_col.metric(label = "Balance MTO", value = "{:,.2f}".format(mir["QTY"].sum()-mto["QTY"].sum()), border = True)
-        right_col.metric(label = "Balance MIR", value = "{:,.2f}".format(mir["Hauling"].sum()-mir["QTY"].sum()), border = True)
+        middleleft_col.metric(label = "MIR QTY", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()), border = True)
+        middle_col.metric(label = "Hauling QTY", value = "{:,.2f}".format(mir["QTY HAULING"].sum()), border = True)
+        middleright_col.metric(label = "Balance MTO", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()-mto["QTY"].sum()), border = True)
+        right_col.metric(label = "Balance MIR", value = "{:,.2f}".format(mir["QTY HAULING"].sum()-mir["QTY TOTAL"].sum()), border = True)
         
         matl_container.markdown("##### MIR")
-        st.dataframe(mir[["MIR NO", "Standard Matl Name", "QTY", "Hauling"]], width=2000, height = 360)    
-
-        matl_container.markdown("##### Piping Works")
-        st.dataframe(pworks[["LINE NO", "JOINT NO", "PART 1", "PART 2"]], width=2000, height = 280)    
+        st.dataframe(mir[["SR / MIR NO", "Standard Matl Name", "QTY TOTAL", "QTY HAULING"]], width=2000, height = 360)       
 
         matl_container.markdown("##### Summary Material")
         st.dataframe(summary_merged, width=2000, height = 280, hide_index = True)
 
 with matl_tab:
     matl_tab.markdown("# ^\_^ THIS PAGE IS UNDER DEVELOPMENT ^_^")
-    mirexist = pd.read_csv("D:/Dashboard/Pertamina/MIR TEMPLATE - Copy.csv")
+    mirexist = pd.read_csv(r"D:\Dashboard\Pertamina\Monitoring Piping Crude\MIR for dashboard.csv")
 
     if "mirnum" not in st.session_state:
         st.session_state.mirnum = None
     if "mir_confirmed" not in st.session_state:
         st.session_state.mir_confirmed = False
     if "dumpdf" not in st.session_state:
-        st.session_state.dumpdf = pd.DataFrame(columns = ["TYPE", "TYPE Material","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name"])
+        st.session_state.dumpdf = pd.DataFrame(columns = ["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name"])
 
     def clear_mirnum():
         st.session_state.mirnum = None
@@ -681,13 +819,13 @@ with matl_tab:
         matl_container.subheader("MATERIAL DB", anchor = False)
         db_matl = pd.read_csv("D://Dashboard/DB MATL.csv")
         db_matl["keycode"] = (
-            db_matl[["TYPE", "TYPE Material","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk"]]
+            db_matl[["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk"]]
             .fillna('')
             .astype(str)
             .apply(lambda row: ' '.join(filter(None, row)), axis=1)
         )
 
-        db_matl = db_matl[["MatCode dev", "TYPE", "TYPE Material","GRUP material","Standard Matl Name", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM", "keycode"]]
+        db_matl = db_matl[["MatCode dev", "TYPE", "MATL TYPE","GRUP material","Standard Matl Name", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM", "keycode"]]
         
         col1, col2, col3, col4, col5, col6 = matl_container.columns(6)
 
@@ -696,7 +834,7 @@ with matl_tab:
 
         matl_container.subheader("MIR PREVIEW", anchor = False)
         selected_item = db_matl.loc[event.selection["rows"]]
-        selected_item = selected_item[["TYPE", "TYPE Material","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name", "MatCode dev"]]
+        selected_item = selected_item[["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name", "MatCode dev"]]
         selected_item["No Item"] = [i+1 for i in range(len(selected_item))]
         selected_item["Qty Total"] = None
         selected_item["NS"] = mirexist["NS"].max() +1
@@ -716,7 +854,7 @@ with matl_tab:
         selected_item["Remarks 1.1"] = None
         selected_item["SML"] = None
         selected_item["SMOA"] = None
-        selected_item =selected_item[["No Item", "Project/Vendor Code", "NS", "PL/SR","SR Date", "Date Action", "TYPE", "TYPE Material", 
+        selected_item =selected_item[["No Item", "Project/Vendor Code", "NS", "PL/SR","SR Date", "Date Action", "TYPE", "MATL TYPE", 
                                       "GRUP material",  "Base size 1", "Base size 2", "Class / Sch", "Thk", "THK 2", "Standard Matl Name", 
                                       "MatCode dev", "Ident Code", "Tag Number / PO Number", "Qty Total","Qty Hauling", "Qty Outstanding","UOM", 
                                       "Status Hauling", "Status SR", "Remarks 1", "Remarks 1.1", "SML", "SMOA"]]

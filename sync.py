@@ -678,6 +678,10 @@ if __name__ == '__main__':
         matldata_all = pd.merge(matldata_pure, dbmatl_mto, left_on="P MATL CODE", right_on="MATL CODE", how="left")
         matldata_all = pd.merge(matldata_all, dbmatl_mto, left_on="S MATL CODE", right_on="MATL CODE", how="left", suffixes=("","_S"))
         matldata_all = pd.merge(matldata_all, dbmatl_mto, left_on=matldata_all["T MATL CODE"].astype(str), right_on="MATL CODE", how="left", suffixes=("","_T"))
+        mirdata["TEMP_PK"] = mirdata[["SR / MIR NO", "MATL CODE"]].apply(lambda x: ' '.join(x.dropna().astype(str)), axis=1)
+        mirdata["QTY HAULING"] = mirdata[[f"HAULING QTY {i}" for i in range(1, 11)]].sum(axis=1)
+        mirdata["QTY OUTSTANDING"] = mirdata["QTY TOTAL"] - mirdata["QTY HAULING"]
+        mirdata = pd.merge(mirdata, dbmatl_mir, left_on="MATL CODE", right_on="MATL CODE", how = 'left', suffixes=("", "_dup"))
         for i in dbexcols :
             matldata_all["P "+ i] = matldata_all["P "+ i].fillna(matldata_all[i])
             matldata_all["S "+ i] = matldata_all["S "+ i].fillna(matldata_all[i+"_S"])
@@ -685,21 +689,22 @@ if __name__ == '__main__':
             matldata_all.drop(columns = i, inplace=True)
             matldata_all.drop(columns = i+"_S", inplace=True)
             matldata_all.drop(columns = i+"_T", inplace=True)
+            if i != "MATL CODE":
+                mirdata[i] = mirdata[i].fillna(mirdata[i+"_dup"])
+                mirdata.drop(columns = i+"_dup", inplace = True)
         matldata = matldata_all[matlcols+["PK"]]
         matldata_all["PK"] = matldata_all["PK"].astype(str)
         matldata["PK"] = matldata["PK"].astype(str)
+        mirdata["Status Hauling"] = mirdata["QTY OUTSTANDING"].fillna(0).apply(lambda x: "OPEN" if x != 0 else "CLOSE")
         srdata_all["PK"] = srdata_all["PK"].astype(str)
         srdata["PK"] = srdata["PK"].astype(str)
         srdata_all["P TEMP_PK"] = srdata_all[["P SR / MIR NO", "P MATL CODE"]].apply(lambda x: ' '.join(x.dropna().astype(str)), axis=1)
         srdata_all["S TEMP_PK"] = srdata_all[["S SR / MIR NO", "S MATL CODE"]].apply(lambda x: ' '.join(x.dropna().astype(str)), axis=1)
         srdata_all["T TEMP_PK"] = srdata_all[["T SR / MIR NO", "T MATL CODE"]].apply(lambda x: ' '.join(x.dropna().astype(str)), axis=1)
-        mirdata["TEMP_PK"] = mirdata[["SR / MIR NO", "MATL CODE"]].apply(lambda x: ' '.join(x.dropna().astype(str)), axis=1)
 
         sralldata_merge = pd.merge(srdata_all, mirdata, left_on= "P TEMP_PK", right_on="TEMP_PK",  how = "left", suffixes=("","_P"))
         sralldata_merge = pd.merge(sralldata_merge, mirdata, left_on= "S TEMP_PK", right_on="TEMP_PK", how = "left", suffixes=("","_S"))
         sralldata_merged = pd.merge(sralldata_merge, mirdata, left_on= "T TEMP_PK", right_on="TEMP_PK", how = "left", suffixes=("","_T"))
-        mirdata["QTY HAULING"] = mirdata[[f"HAULING QTY {i}" for i in range(1, 11)]].sum(axis=1)
-        mirdata["QTY OUTSTANDING"] = mirdata["QTY TOTAL"] - mirdata["QTY HAULING"]
 
         for i in ["SR DATE", "PIC", "QTY TOTAL", "QTY HAULING"]:
             sralldata_merged["P " + i] = sralldata_merged["P " + i].fillna(sralldata_merged[i])
