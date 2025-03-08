@@ -73,7 +73,7 @@ st.markdown("""
             }
 
             [data-testid="stPopoverBody"] {
-                width: 680px !important;
+                width: 880px !important;
                 max-width: 1500px !important;
                 height: 600px !important;
                 overflow: auto;
@@ -300,10 +300,21 @@ with cons_tab:
 
     unfitted_df = piping_progress[piping_progress['FIT-UP RECORD DATE'].isnull()][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
     unwelded_df = piping_progress[piping_progress['WELDING RECORD DATE'].isnull()][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
-    ssdone_df = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].notna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
-    csdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].notna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
-    ssnotdone_df = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
-    csnotdone_df = piping_progress[piping_progress["MAT'L LINE"] == "CS LINE"].loc[piping_progress["WELDING RECORD DATE"].isna()][["LINE NO", "Sub Area", "JOINT NO", "TOTAL"]]
+    fitteddone_df = piping_progress.loc[piping_progress["WELDING RECORD DATE"].notna()][["LINE NO", "Sub Area", "JOINT NO", "MAT'L LINE", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "TOTAL"]]
+    weldeddone_df = piping_progress.loc[piping_progress["WELDING RECORD DATE"].notna()][["LINE NO", "Sub Area", "JOINT NO", "MAT'L LINE", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "TOTAL"]]
+    status = piping_progress.groupby('LINE NO')['WELDING RECORD DATE'].apply(lambda x: 'DONE' if x.notna().all() else 'NOT DONE')
+
+    result = piping_progress.groupby('LINE NO').agg(
+        SUM_TOTAL=('TOTAL', 'sum'),
+        SUM_FW=('DIA-INCH PLAN FW', 'sum'),
+        SUM_SW=('DIA-INCH PLAN SW', 'sum'),
+        FIRST_MATL_LINE=("MAT'L LINE", 'first'),
+        FIRST_SUB_AREA=('Sub Area', 'first')
+    ).reset_index()
+    result['STATUS'] = result['LINE NO'].map(status)
+    
+    linedone_df = result[result["STATUS"] == "DONE"]
+    linenotdone_df = result[result["STATUS"] == "NOT DONE"]
     fw_df = piping_progress[piping_progress["FW / SW"] == "FW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
     sw_df = piping_progress[piping_progress["FW / SW"] == "SW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
     backlog_df = piping_progress.loc[piping_progress["FIT-UP RECORD DATE"].notna() & piping_progress["WELDING RECORD DATE"].isna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
@@ -407,7 +418,7 @@ with cons_tab:
         id_col.metric(label="Welded ID", value= f"{welded_id:,.2f}",  delta=f"{unwelded_id:,.2f} ID Not Welded Yet", delta_color="inverse", border=True)
         
         line_col.metric(label="Total Line", value="{:,.0f}".format(total_line), delta=f"{(ssnotdone+csnotdone):,.0f} Lines Not Done Yet",delta_color = "inverse", border=True)
-        line_col.metric(label="Stainless Steel Line", value=f"{ssline:,.0f}", delta = f"SS 316 {ss316:,.0f} | {ss304:,.0f} SS 304",delta_color="inverse", border=True)
+        line_col.metric(label="Stainless Steel Line", value=f"{ssline:,.0f}", delta = f"SS 316 : {ss316:,.0f} | {ss304:,.0f} : SS 304",delta_color="inverse", border=True)
         line_col.metric(label="Carbon Steel Line", value=f"{csline:,.0f}", border=True)
 
         backlog_container = cons_container.container()
@@ -428,25 +439,25 @@ with cons_tab:
             dfcont = st.container(border=True)
             dfcont.dataframe(unwelded_df)
 
-        with ssd.popover("SS Done", use_container_width = True):
+        with ssd.popover("Fitted Done", use_container_width = True):
             st.markdown("Stainless Steel Line Done")
             dfcont = st.container(border=True)
-            dfcont.dataframe(ssdone_df)
+            dfcont.dataframe(fitteddone_df)
 
-        with csd.popover("CS Done", use_container_width = True):
+        with csd.popover("Welded Done", use_container_width = True):
             st.markdown("Carbon Steel Line Done")
             dfcont = st.container(border=True)
-            dfcont.dataframe(csdone_df)
+            dfcont.dataframe(weldeddone_df)
         
-        with ssnd.popover("SS Not Done Yet", use_container_width = True):
+        with ssnd.popover("Line Done", use_container_width = True):
             st.markdown("Stainless Steel Line Not Done Yet")
             dfcont = st.container(border=True)
-            dfcont.dataframe(ssnotdone_df)
+            dfcont.dataframe(linedone_df)
 
-        with csnd.popover("CS Not Done Yet", use_container_width = True):
+        with csnd.popover("Line Not Done Yet", use_container_width = True):
             st.markdown("Carbon Steel Line Not Done Yet")
             dfcont = st.container(border=True)
-            dfcont.dataframe(csnotdone_df)
+            dfcont.dataframe(linenotdone_df)
         
         with bl.popover("Backlog", use_container_width = True):
             st.markdown("Unfitted Line & Joint")
@@ -602,12 +613,12 @@ with cons_tab:
                 st.dataframe(piping_progress[piping_progress["LINE NO"] == st.session_state.selected_line][usecols], column_config={
                     "LINE NO" : st.column_config.Column("LINE NO", pinned=True),
                     "JOINT NO" : st.column_config.Column("JOINT NO", pinned=True)
-                    })
+                    },height=250)
         else:
             st.dataframe(piping_progress[usecols], column_config={
                 "LINE NO" : st.column_config.Column("LINE NO", pinned=True),
                 "JOINT NO" : st.column_config.Column("JOINT NO", pinned=True)
-                })
+                },height=250)
 
     with afi_col:
         afi_container = st.container(border=True)
@@ -621,13 +632,20 @@ with cons_tab:
         detail_container = st.container(border = True)
         detail_container.markdown("###### Details")
 
-        if selected_joint != "All" : 
+        if selected_line != "All" : 
+            if selected_joint == "All":
+                pointer = 0
+            else:
+                pointer = selected_index = piping_progress.index[piping_progress["JOINT NO"] == selected_joint][0]
+
+
+            st.write(pointer)
             with detail_container.popover("Joint Detail", use_container_width = True, ):
                 st.markdown("Joint Detail")
                 dfcont = st.container(border = True)
-                joint_detail = piping_progress[["Sub Area", "LINE NO", "Drawing No.", "REV", "PAGE", "JOINT NO", "JOINT TYPE", "PIPE SPOOL", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "Comment"]]
+                joint_detail = piping_progress.loc[1][["Sub Area", "LINE NO", "Drawing No.", "REV", "PAGE", "JOINT NO", "JOINT TYPE", "PIPE SPOOL", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "Comment"]]
                 joint_detail = joint_detail.T
-                joint_detail.columns = ["Detail"]
+                # joint_detail.columns = ["Detail"]
                 dfcont.dataframe(joint_detail, width = 2000) 
 
             with detail_container.popover("Construction Detail", use_container_width = True):
@@ -635,7 +653,7 @@ with cons_tab:
                 dfcont = st.container(border = True)
                 cons_detail = piping_progress[["FIT-UP RECORD DATE", "FIT-UP RECORD SW", "FIT-UP RECORD FW", "FU SPV", "WELDING RECORD DATE", "WELDING RECORD SW", "WELDING RECORD FW", "W SPV", "W STAMP"]]
                 cons_detail = cons_detail.T
-                cons_detail.columns = ["Detail"]
+                # cons_detail.columns = ["Detail"]
                 dfcont.dataframe(cons_detail, width = 2000)
 
             with detail_container.popover("AFI Detail", use_container_width = True):
@@ -644,7 +662,7 @@ with cons_tab:
                 afidetail = piping_progress[["QAQC AFI F/U DATE", "QAQC AFI F/U NO", "QAQC AFI F/U RES", "QAQC VISUAL DATE", "QAQC VISUAL NO", "QAQC VISUAL RES"]]
 
                 afidetail = afidetail.T
-                afidetail.columns = ["Detail"]
+                # afidetail.columns = ["Detail"]
                 dfcont.dataframe(afidetail, width = 2000)
         
         else:
@@ -888,9 +906,9 @@ with matl_tab:
         col1, col2 = st.columns(2)
         
         st.session_state.haulingdf = mirexist
-        mirnumber = col1.selectbox("Select MIR Number", options = ["All"] + st.session_state.haulingdf["PL/SR"].unique().tolist())
+        mirnumber = col1.selectbox("Select MIR Number", options = ["All"] + st.session_state.haulingdf["SR / MIR NO"].unique().tolist())
 
-        st.session_state.haulingdf = mirexist[["No Item","NS","PL/SR", "Standard Matl Name", "Qty Total","Qty Outstanding", "Qty Hauling","UoM"]]
+        st.session_state.haulingdf = mirexist[["No Item","NS","SR / MIR NO", "Standard Matl Name", "QTY TOTAL","QTY OUTSTANDING", "QTY HAULING","UOM"]]
         if mirnumber != "All":
             st.session_state.haulingdf = st.session_state.haulingdf[st.session_state.haulingdf["PL/SR"] == mirnumber]
         else:
