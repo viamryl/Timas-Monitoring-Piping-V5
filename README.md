@@ -66,7 +66,7 @@ Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxh
 ## Do & Don't
 ### Do
 - Fill the data consistently
-### Don't
+### Don't (COMPLETELY HAROM)
 - Renaming the file
 - Renaming the sheet
 - Renaming the folder (including full path)
