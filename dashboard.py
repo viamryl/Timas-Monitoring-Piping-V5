@@ -16,10 +16,10 @@ st.set_page_config(layout="wide",
                    initial_sidebar_state="expanded",
                    page_icon = "assets/timaslogo.ico",
                    menu_items =  {
-                       "about" : "### TIMAS SUPLINDO\n\n*Developed by Auvi Amril*\n\n*https://linkedin.com/in/auviamril*\n\n\n\n"
+                       "about" : "### TIMAS SUPLINDO\n\n*Developed by Auvi Amril*\n*https://linkedin.com/in/auviamril*\n\n\n\n"
                    })
 
-st_autorefresh(interval = 30_000)
+st_autorefresh(interval = 30_000, debounce=True)
 
 st.markdown("""
             <style>
@@ -78,7 +78,7 @@ st.markdown("""
                 justify-content: center;
             }
             [data-testid="stSidebarHeader"]{
-                padding-bottom: 2.5rem;
+                padding-bottom: 2rem;
             }
 
             [data-testid="stPopoverBody"] {
@@ -104,7 +104,7 @@ st.markdown("""
 
             .css-hi6a2p {padding-top: 0rem;}
             .block-container {
-                    padding-top: 3rem;
+                    padding-top: 0rem;
                     padding-bottom: 3rem;
                     padding-left: 5rem;
                     padding-right: 5rem;
@@ -140,7 +140,7 @@ def check_password():
 
     st.text_input("Password", type="password", on_change=password_entered, key="password")
     if not st.session_state.password_correct:
-        st.error("😕 Password incorrect or session expired")
+        st.error("😕 Password incorrect or session expired, Enter password again")
 
     return False
 
@@ -233,7 +233,7 @@ with cons_tab:
         
         plant = st.selectbox("Choose Plant", options = ["Crude"])
 
-        datasource = st.selectbox("Choose Data Source", options = ["Last Day Data", "Newest Data"])
+        datasource = st.selectbox("Choose Data Source", options = ["Newest Data", "Last Day Data"])
         if datasource == "Last Day Data":
             mto, mir, path = lastdaydata(plant)
         elif datasource == "Newest Data":
@@ -251,8 +251,7 @@ with cons_tab:
                 piping_progress = piprog_lastday(plant, dashboard="eng")
             elif datasource == "Newest Data":
                 piping_progress = piprog_newest(plant, dashboard="eng")
-        st.container(height = 130, border = False)
-        if st.button("Reset Filter"):
+        if st.button("Reset Filter", use_container_width=True):
             st.session_state.selected_line = "All"
             st.session_state.selected_joint = "All"
             st.session_state.selected_TYPE = "All"
@@ -720,7 +719,7 @@ with cons_tab:
         else:
             mto = mto
 
-        selected_mir = mirfilter_cols.selectbox("Choose MIR Number", ["All"] + mir["SR / MIR NO"].unique().tolist(),key="selected_mir")
+        selected_mir = mirfilter_cols.selectbox("Choose SR Number", ["All"] + mir["SR / MIR NO"].unique().tolist(),key="selected_mir")
         if selected_mir != "All":
             mir = mir[mir["SR / MIR NO"] == selected_mir]
         else:
@@ -751,7 +750,7 @@ with cons_tab:
         left_col, middleleft_col, middle_col, middleright_col, right_col = matl_container.columns(5)
 
         left_col.metric(label = "MTO QTY", value = "{:,.2f}".format(mto["QTY"].sum()), border = True)
-        middleleft_col.metric(label = "MIR QTY", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()), border = True)
+        middleleft_col.metric(label = "SR QTY", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()), border = True)
         middle_col.metric(label = "Hauling QTY", value = "{:,.2f}".format(mir["QTY HAULING"].sum()), border = True)
         middleright_col.metric(label = "Balance MTO", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()-mto["QTY"].sum()), border = True)
         right_col.metric(label = "Balance SR", value = "{:,.2f}".format(mir["QTY HAULING"].sum()-mir["QTY TOTAL"].sum()), border = True)
