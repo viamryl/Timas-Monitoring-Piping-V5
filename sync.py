@@ -207,8 +207,8 @@ def write_data(df, destination_path, sheetname, startrow, startcol, pk = "PK", t
                 ws.cell(row=startrow + i, column=startcol + j, value=value)
 
             if df["FW / SW"][i] == "SW" or df["FW / SW"][i] == "FW":
-                ws.cell(row=startrow + i, column=a, value = f'=IF({vaa}{startrow + i}="SW",1,IF({vaa}{startrow + i}="FW",0,))*IF({vbb}{startrow + i}=15,0.5,IF({vbb}{startrow + i}=20,0.75,IF({vbb}{startrow + i}=25,1,IF({vbb}{startrow + i}=32,1.25,IF({vbb}{startrow + i}=40,1.5,IF({vbb}{startrow + i}=50,2,IF({vbb}{startrow + i}=65,2.5,IF({vbb}{startrow + i}=80,3,IF({vbb}{startrow + i}>=100,{vbb}{startrow + i}2/25)))))))))')
-                ws.cell(row=startrow + i, column=b, value = f'=IF({vaa}{startrow + i}="SW",0,IF({vaa}{startrow + i}="FW",1,))*IF({vbb}{startrow + i}=15,0.5,IF({vbb}{startrow + i}=20,0.75,IF({vbb}{startrow + i}=25,1,IF({vbb}{startrow + i}=32,1.25,IF({vbb}{startrow + i}=40,1.5,IF({vbb}{startrow + i}=50,2,IF({vbb}{startrow + i}=65,2.5,IF({vbb}{startrow + i}=80,3,IF({vbb}{startrow + i}>=100,{vbb}{startrow + i}2/25)))))))))')
+                ws.cell(row=startrow + i, column=a, value = f'=IF({vaa}{startrow + i}="SW",1,IF({vaa}{startrow + i}="FW",0,))*IF({vbb}{startrow + i}=15,0.5,IF({vbb}{startrow + i}=20,0.75,IF({vbb}{startrow + i}=25,1,IF({vbb}{startrow + i}=32,1.25,IF({vbb}{startrow + i}=40,1.5,IF({vbb}{startrow + i}=50,2,IF({vbb}{startrow + i}=65,2.5,IF({vbb}{startrow + i}=80,3,IF({vbb}{startrow + i}>=100,{vbb}{startrow + i}/25)))))))))')
+                ws.cell(row=startrow + i, column=b, value = f'=IF({vaa}{startrow + i}="SW",0,IF({vaa}{startrow + i}="FW",1,))*IF({vbb}{startrow + i}=15,0.5,IF({vbb}{startrow + i}=20,0.75,IF({vbb}{startrow + i}=25,1,IF({vbb}{startrow + i}=32,1.25,IF({vbb}{startrow + i}=40,1.5,IF({vbb}{startrow + i}=50,2,IF({vbb}{startrow + i}=65,2.5,IF({vbb}{startrow + i}=80,3,IF({vbb}{startrow + i}>=100,{vbb}{startrow + i}/25)))))))))')
             ws.cell(row=startrow + i, column=c, value = f"={va}{startrow+i}+{vb}{startrow+i}")
             if typedf == "progress" or typedf == "claim":
                 ws.cell(row=startrow + i, column=d, value = f'=IF({vh}{startrow + i}>0,{va}{startrow + i},"")')
@@ -682,6 +682,7 @@ if __name__ == '__main__':
         mirdata["QTY HAULING"] = mirdata[[f"HAULING QTY {i}" for i in range(1, 11)]].sum(axis=1)
         mirdata["QTY OUTSTANDING"] = mirdata["QTY TOTAL"] - mirdata["QTY HAULING"]
         mirdata = pd.merge(mirdata, dbmatl_mir, left_on="MATL CODE", right_on="MATL CODE", how = 'left', suffixes=("", "_dup"))
+        mtodata = pd.merge(mtodata, dbmatl_mto, left_on="MATL CODE", right_on="MATL CODE", how = 'left', suffixes=("", "_dup")) 
         for i in dbexcols :
             matldata_all["P "+ i] = matldata_all["P "+ i].fillna(matldata_all[i])
             matldata_all["S "+ i] = matldata_all["S "+ i].fillna(matldata_all[i+"_S"])
@@ -692,6 +693,8 @@ if __name__ == '__main__':
             if i != "MATL CODE":
                 mirdata[i] = mirdata[i].fillna(mirdata[i+"_dup"])
                 mirdata.drop(columns = i+"_dup", inplace = True)
+                mtodata[i] = mtodata[i].fillna(mtodata[i+"_dup"])
+                mtodata.drop(columns = i+"_dup", inplace = True)
         matldata = matldata_all[matlcols+["PK"]]
         matldata_all["PK"] = matldata_all["PK"].astype(str)
         matldata["PK"] = matldata["PK"].astype(str)
@@ -705,6 +708,7 @@ if __name__ == '__main__':
         sralldata_merge = pd.merge(srdata_all, mirdata, left_on= "P TEMP_PK", right_on="TEMP_PK",  how = "left", suffixes=("","_P"))
         sralldata_merge = pd.merge(sralldata_merge, mirdata, left_on= "S TEMP_PK", right_on="TEMP_PK", how = "left", suffixes=("","_S"))
         sralldata_merged = pd.merge(sralldata_merge, mirdata, left_on= "T TEMP_PK", right_on="TEMP_PK", how = "left", suffixes=("","_T"))
+
 
         for i in ["SR DATE", "PIC", "QTY TOTAL", "QTY HAULING"]:
             sralldata_merged["P " + i] = sralldata_merged["P " + i].fillna(sralldata_merged[i])
@@ -748,6 +752,9 @@ if __name__ == '__main__':
         still_conflict = still_conflict[still_conflict["_merge"] == "right_only"]
         still_conflict = still_conflict[engallcols]
         engqc = syncronized(engdata_all, md_afi_data[qccols+["PK"]], "PK", "PK", 'left')
+        engqc = syncronized(engqc, md_claim_data[ppcols+["PK"]], "PK", "PK", 'left')
+        engqc = syncronized(engqc, matldata, "PK", "PK", 'left')
+        engqc = syncronized(engqc, srdata, "PK", "PK", 'left')
 
         logging.info("Fixing Datetime Format")
         md = fixdate(md, datecols)

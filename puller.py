@@ -327,6 +327,19 @@ if __name__ == '__main__':
         mirdata["QTY HAULING"] = mirdata[[f"HAULING QTY {i}" for i in range(1, 11)]].sum(axis=1)
         mirdata["QTY OUTSTANDING"] = mirdata["QTY TOTAL"] - mirdata["QTY HAULING"]
         mirdata = pd.merge(mirdata, dbmatl_mir, left_on="MATL CODE", right_on="MATL CODE", how = 'left', suffixes=("", "_dup"))
+        mtodata = pd.merge(mtodata, dbmatl_mto, left_on="MATL CODE", right_on="MATL CODE", how = 'left', suffixes=("", "_dup")) 
+        for i in dbexcols :
+            matlalldata["P "+ i] = matlalldata["P "+ i].fillna(matlalldata[i])
+            matlalldata["S "+ i] = matlalldata["S "+ i].fillna(matlalldata[i+"_S"])
+            matlalldata["T "+ i] = matlalldata["T "+ i].fillna(matlalldata[i+"_T"])
+            matlalldata.drop(columns = i, inplace=True)
+            matlalldata.drop(columns = i+"_S", inplace=True)
+            matlalldata.drop(columns = i+"_T", inplace=True)
+            if i != "MATL CODE":
+                mirdata[i] = mirdata[i].fillna(mirdata[i+"_dup"])
+                mirdata.drop(columns = i+"_dup", inplace = True)
+                mtodata[i] = mtodata[i].fillna(mtodata[i+"_dup"])
+                mtodata.drop(columns = i+"_dup", inplace = True)
         for i in dbexcols :
             matlalldata["P "+ i] = matlalldata["P "+ i].fillna(matlalldata[i])
             matlalldata["S "+ i] = matlalldata["S "+ i].fillna(matlalldata[i+"_S"])

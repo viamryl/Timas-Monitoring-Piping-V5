@@ -6,9 +6,10 @@ import time
 import os
 import datetime
 from streamlit_theme import st_theme
-import numpy as np
+from streamlit_autorefresh import st_autorefresh
 
 locale.setlocale(locale.LC_ALL, '')
+
 
 st.set_page_config(layout="wide",
                    page_title="PIPING MONITORING",
@@ -18,8 +19,16 @@ st.set_page_config(layout="wide",
                        "about" : "### TIMAS SUPLINDO\n\n*Developed by Auvi Amril*\n\n*https://linkedin.com/in/auviamril*\n\n\n\n"
                    })
 
+st_autorefresh(interval = 30_000)
+
 st.markdown("""
             <style>
+            html, body, [class*="css"] {
+                font-family: 'Roboto', sans-serif; 
+                # font-size: 18px;
+                font-weight: 502;
+                color: #091747;
+            }
             [data-testid="stMetric"] {
                 display: flex;
                 flex-direction: column;
@@ -69,7 +78,7 @@ st.markdown("""
                 justify-content: center;
             }
             [data-testid="stSidebarHeader"]{
-                padding-bottom: 0.5rem;
+                padding-bottom: 2.5rem;
             }
 
             [data-testid="stPopoverBody"] {
@@ -95,7 +104,7 @@ st.markdown("""
 
             .css-hi6a2p {padding-top: 0rem;}
             .block-container {
-                    padding-top: 1rem;
+                    padding-top: 3rem;
                     padding-bottom: 3rem;
                     padding-left: 5rem;
                     padding-right: 5rem;
@@ -318,7 +327,7 @@ with cons_tab:
     fw_df = piping_progress[piping_progress["FW / SW"] == "FW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
     sw_df = piping_progress[piping_progress["FW / SW"] == "SW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
     backlog_df = piping_progress.loc[piping_progress["FIT-UP RECORD DATE"].notna() & piping_progress["WELDING RECORD DATE"].isna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
-    ss316df = piping_progress[piping_progress["MAT'L LINE"] == "SS 316"]
+    ss316df = piping_progress[piping_progress["MAT'L LINE"] == "SS 316"].groupby("LINE NO", as_index = False).agg({"MAT'L LINE" : "first"})
     ss304df = piping_progress[piping_progress["MAT'L LINE"] == "SS 304"]
 
     total_joint = piping_progress.shape[0]
@@ -354,12 +363,12 @@ with cons_tab:
     #AFI
     afifujoint = piping_progress["QAQC AFI F/U DATE"].count()
     afifujoint_notyet = total_joint - afifujoint
-    afifuid = sum(piping_progress[piping_progress["QAQC AFI F/U DATE"].apply(pd.notna)]["TOTAL"].tolist())
+    afifuid = sum(piping_progress[piping_progress["QAQC AFI F/U DATE"].apply(pd.notna)]["TOTAL"].fillna(0).tolist())
     afifuid_notyet = total_id - afifuid
 
     afivisjoint = piping_progress["QAQC VISUAL DATE"].count()
     afivisjoint_notyet = total_joint - afivisjoint
-    afivisid = sum(piping_progress[piping_progress["QAQC VISUAL DATE"].apply(pd.notna)]["TOTAL"].tolist())
+    afivisid = sum(piping_progress[piping_progress["QAQC VISUAL DATE"].apply(pd.notna)]["TOTAL"].fillna(0).tolist())
     afivisid_notyet = total_id - afivisid
 
     #Material
@@ -382,7 +391,7 @@ with cons_tab:
                         right_on = "STANDARD MATL NAME",
                         how = "left")
     summary_merged["Balance MTO"] =  summary_merged["QTY"] - summary_merged["QTY TOTAL"]
-    summary_merged["BALANCE MIR"] = summary_merged["Hauling"] - summary_merged["QTY"]
+    summary_merged["BALANCE SR"] = summary_merged["Hauling"] - summary_merged["QTY"]
     summary_merged = summary_merged.rename(columns = {"TYPE_x" : "TYPE",
                                                     "CLASS / SCH_x" : "CLASS / SCH",
                                                     "Total" : "MTO Total",
@@ -633,27 +642,20 @@ with cons_tab:
         detail_container.markdown("###### Details")
 
         if selected_line != "All" : 
-            if selected_joint == "All":
-                pointer = 0
-            else:
-                pointer = selected_index = piping_progress.index[piping_progress["JOINT NO"] == selected_joint][0]
-
-
-            st.write(pointer)
             with detail_container.popover("Joint Detail", use_container_width = True, ):
                 st.markdown("Joint Detail")
                 dfcont = st.container(border = True)
-                joint_detail = piping_progress.loc[1][["Sub Area", "LINE NO", "Drawing No.", "REV", "PAGE", "JOINT NO", "JOINT TYPE", "PIPE SPOOL", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "Comment"]]
-                joint_detail = joint_detail.T
-                # joint_detail.columns = ["Detail"]
+                joint_detail = piping_progress[["Sub Area", "LINE NO", "Drawing No.", "REV", "PAGE", "JOINT NO", "JOINT TYPE", "PIPE SPOOL", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "Comment"]]
+                joint_detail = joint_detail.head(1).T
+                joint_detail.columns = ["Detail"]
                 dfcont.dataframe(joint_detail, width = 2000) 
 
             with detail_container.popover("Construction Detail", use_container_width = True):
                 st.markdown("Construction Detail")
                 dfcont = st.container(border = True)
                 cons_detail = piping_progress[["FIT-UP RECORD DATE", "FIT-UP RECORD SW", "FIT-UP RECORD FW", "FU SPV", "WELDING RECORD DATE", "WELDING RECORD SW", "WELDING RECORD FW", "W SPV", "W STAMP"]]
-                cons_detail = cons_detail.T
-                # cons_detail.columns = ["Detail"]
+                cons_detail = cons_detail.head(1).T
+                cons_detail.columns = ["Detail"]
                 dfcont.dataframe(cons_detail, width = 2000)
 
             with detail_container.popover("AFI Detail", use_container_width = True):
@@ -661,8 +663,8 @@ with cons_tab:
                 dfcont = st.container(border = True)
                 afidetail = piping_progress[["QAQC AFI F/U DATE", "QAQC AFI F/U NO", "QAQC AFI F/U RES", "QAQC VISUAL DATE", "QAQC VISUAL NO", "QAQC VISUAL RES"]]
 
-                afidetail = afidetail.T
-                # afidetail.columns = ["Detail"]
+                afidetail = afidetail.head(1).T
+                afidetail.columns = ["Detail"]
                 dfcont.dataframe(afidetail, width = 2000)
         
         else:
@@ -752,9 +754,9 @@ with cons_tab:
         middleleft_col.metric(label = "MIR QTY", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()), border = True)
         middle_col.metric(label = "Hauling QTY", value = "{:,.2f}".format(mir["QTY HAULING"].sum()), border = True)
         middleright_col.metric(label = "Balance MTO", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()-mto["QTY"].sum()), border = True)
-        right_col.metric(label = "Balance MIR", value = "{:,.2f}".format(mir["QTY HAULING"].sum()-mir["QTY TOTAL"].sum()), border = True)
+        right_col.metric(label = "Balance SR", value = "{:,.2f}".format(mir["QTY HAULING"].sum()-mir["QTY TOTAL"].sum()), border = True)
         
-        matl_container.markdown("##### MIR")
+        matl_container.markdown("##### SR")
         st.dataframe(mir[["SR / MIR NO", "Standard Matl Name", "QTY TOTAL", "QTY HAULING"]], width=2000, height = 360)       
 
         matl_container.markdown("##### Summary Material")
