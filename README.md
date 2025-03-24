@@ -1,5 +1,5 @@
 # PIPING MONITORING BETA VERSION
-This program is developed to monitor PIPING projects at TIMAS SUPLINDO. It will synchronize the databases of the Engineering, QAQC, and PPC departments, while providing visualizations through a dashboard.
+This program is developed to monitor PIPING projects at TIMAS SUPLINDO. It will synchronize the databases of the Engineering, QAQC, Material Handling,and PPC departments, while providing visualizations through a dashboard.
 
 ## About This Program
 The program consists of 4 sub-products :
@@ -14,9 +14,9 @@ The program consists of 4 sub-products :
 
 ## Program Logic & Workflow
 - PIPING PROGRESS data syncronization workflow
-![presentasi 1 timas (17)](https://github.com/user-attachments/assets/4101ab7d-64e3-43f8-a148-9f350da32d58)
+![presentasi 1 timas (17)](https://github.com/user-attachments/assets/17ab7a3a-8dc0-459e-964e-ce57c406a867)
 - PIPING PROGRESS data puller workflow
-![presentasi 1 timas (18)](https://github.com/user-attachments/assets/1ff162e2-5595-45b2-b265-6138f1c7f8af)
+![presentasi 1 timas (18)](https://github.com/user-attachments/assets/b3a76cc2-8605-466b-83e1-d5ba35102a4c)
 
 ## Prerequisites & Minimum Requirements
 - Server Computer (Mandatory)
@@ -66,13 +66,16 @@ Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxh
 ## Do & Don't
 ### Do
 - Fill the data consistently
-### Don't
+### Don't (COMPLETELY HAROM)
 - Renaming the file
 - Renaming the sheet
 - Renaming the folder (including full path)
 - Renaming columns
 - Adding row above the columns
 - Moving file directory
+- Adding column
+- Remove column
+- Remove system32
 
 ## Limitation, Restriction, and Disclaimer
 - Data Structure </br>
