@@ -19,7 +19,7 @@ st.set_page_config(layout="wide",
                        "about" : "### TIMAS SUPLINDO\n\n*Developed by Auvi Amril*\n*https://linkedin.com/in/auviamril*\n\n\n\n"
                    })
 
-st_autorefresh(interval = 300_000, debounce=True)
+st_autorefresh(interval = 60_000, debounce=True)
 
 st.markdown("""
             <style>
