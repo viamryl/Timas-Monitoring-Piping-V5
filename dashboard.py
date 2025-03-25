@@ -19,7 +19,7 @@ st.set_page_config(layout="wide",
                        "about" : "### TIMAS SUPLINDO\n\n*Developed by Auvi Amril*\n*https://linkedin.com/in/auviamril*\n\n\n\n"
                    })
 
-st_autorefresh(interval = 30_000, debounce=True)
+st_autorefresh(interval = 300_000, debounce=True)
 
 st.markdown("""
             <style>
@@ -325,8 +325,9 @@ try:
         fw_df = piping_progress[piping_progress["FW / SW"] == "FW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
         sw_df = piping_progress[piping_progress["FW / SW"] == "SW"][["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
         backlog_df = piping_progress.loc[piping_progress["FIT-UP RECORD DATE"].notna() & piping_progress["WELDING RECORD DATE"].isna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]]
-        ss316df = piping_progress[piping_progress["MAT'L LINE"] == "SS 316"].groupby("LINE NO", as_index = False).agg({"MAT'L LINE" : "first"})
-        ss304df = piping_progress[piping_progress["MAT'L LINE"] == "SS 304"]
+        ss316df = piping_progress[piping_progress["MAT'L LINE"] == "SS 316"].groupby("LINE NO", as_index = False).agg({"MAT'L LINE" : "max"})
+        ss304df = piping_progress[piping_progress["MAT'L LINE"] == "SS 304"].groupby("LINE NO", as_index = False).agg({"MAT'L LINE" : "max"})
+        system = piping_progress["LINE CODE"].nunique()
 
         total_joint = piping_progress.shape[0]
         total_id = piping_progress["TOTAL"].sum()
@@ -348,7 +349,7 @@ try:
         fw = len(piping_progress[piping_progress["FW / SW"]=="FW"])
         sw = len(piping_progress[piping_progress["FW / SW"]=="SW"])
 
-        ssline = piping_progress.loc[piping_progress["MAT'L LINE"] != "CS LINE", "LINE NO"].nunique()
+        ssline = piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].groupby("LINE NO", as_index = False).agg({"MAT'L LINE" : "max"}).shape[0]
         ssdone = (piping_progress[piping_progress["MAT'L LINE"] != "CS LINE"].groupby("LINE NO")["WELDING RECORD DATE"].apply(lambda x: x.notna().all())).sum()
         ssnotdone = ssline - ssdone
         csline = piping_progress.loc[piping_progress["MAT'L LINE"] == "CS LINE", "LINE NO"].nunique()
@@ -363,11 +364,19 @@ try:
         afifujoint_notyet = total_joint - afifujoint
         afifuid = sum(piping_progress[piping_progress["QAQC AFI F/U DATE"].apply(pd.notna)]["TOTAL"].fillna(0).tolist())
         afifuid_notyet = total_id - afifuid
+        afifusysdone = (piping_progress.groupby("LINE CODE")["QAQC AFI F/U DATE"].apply(lambda x: x.notna().all())).sum()
+        afifudonedf = piping_progress.loc[piping_progress["QAQC AFI F/U DATE"].notna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]] 
+        afifunotdonedf = piping_progress.loc[piping_progress["QAQC AFI F/U DATE"].isna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]] 
+        afifusysdonedf = (piping_progress.groupby("LINE CODE").agg(TOTAL_ID=("TOTAL", "sum"),Done=("QAQC AFI F/U DATE", lambda x: x.notna().all())).sort_values("Done", ascending=False))
 
         afivisjoint = piping_progress["QAQC VISUAL DATE"].count()
         afivisjoint_notyet = total_joint - afivisjoint
         afivisid = sum(piping_progress[piping_progress["QAQC VISUAL DATE"].apply(pd.notna)]["TOTAL"].fillna(0).tolist())
         afivisid_notyet = total_id - afivisid
+        afivissysdone = (piping_progress.groupby("LINE CODE")["QAQC VISUAL DATE"].apply(lambda x: x.notna().all())).sum()
+        afivisdonedf = piping_progress.loc[piping_progress["QAQC VISUAL DATE"].notna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]] 
+        afivisnotdonedf = piping_progress.loc[piping_progress["QAQC VISUAL DATE"].isna(), ["LINE NO", "JOINT NO", "Sub Area", "MAT'L LINE", "TOTAL"]] 
+        afivissysdonedf = (piping_progress.groupby("LINE CODE").agg(TOTAL_ID=("TOTAL", "sum"),Done=("QAQC VISUAL DATE", lambda x: x.notna().all())).sort_values("Done", ascending=False))
 
         #Material
         summary_matl = mto_pure.groupby("Standard Matl Name").agg(Total = ("QTY", "sum"), TYPE = ("TYPE", "first"), matl_code = ("MATL TYPE", "first"), sch = ("CLASS / SCH", "first"), size = ("BASE SIZE 1", "first"),item_criteria = ("Standard Matl Name", "first"))
@@ -433,8 +442,10 @@ try:
             joint_backlog_col.metric(label="Joint Backlog", value="{:,.0f} Joint".format(fitted_joint - welded_joint), border=True)
             id_backlog_col.metric(label="ID Backlog", value="{:,.2f} ID".format(fitted_id - welded_id), border=True)
 
+            # cons_container.divider()
+
             button_container = cons_container.container()
-            ufj,uwj,ssd,csd,ssnd,csnd,bl = button_container.columns(7)
+            ufj,uwj,ssd,bl,csd,ssnd,csnd = button_container.columns(7)
 
             with ufj.popover("Unfitted Joint", use_container_width = True):
                 st.markdown("Unfitted Line & Joint")
@@ -451,6 +462,11 @@ try:
                 dfcont = st.container(border=True)
                 dfcont.dataframe(fitteddone_df)
 
+            with bl.popover("BACKLOG", use_container_width = True):
+                st.markdown("Unfitted Line & Joint")
+                dfcont = st.container(border=True)
+                dfcont.dataframe(backlog_df)
+
             with csd.popover("Welded Done", use_container_width = True):
                 st.markdown("Carbon Steel Line Done")
                 dfcont = st.container(border=True)
@@ -466,10 +482,75 @@ try:
                 dfcont = st.container(border=True)
                 dfcont.dataframe(linenotdone_df)
             
-            with bl.popover("Backlog", use_container_width = True):
-                st.markdown("Unfitted Line & Joint")
+
+            a, b, c, d, e, f = cons_container.columns(6)
+            with a.popover("AFI F/U Done", use_container_width = True):
+                st.markdown("AFI Fit-Up Done")
                 dfcont = st.container(border=True)
-                dfcont.dataframe(backlog_df)
+                dfcont.dataframe(afifudonedf)
+
+            with b.popover("AFI F/U Not Done Yet", use_container_width = True):
+                st.markdown("AFI Fit-Up Not Done Yet")
+                dfcont = st.container(border=True)
+                dfcont.dataframe(afifunotdonedf)
+
+            with c.popover("AFI F/U Sys", use_container_width = True):
+                st.markdown("AFI Fit-Up System Done")
+                dfcont = st.container(border=True)
+                dfcont.dataframe(afifusysdonedf)
+
+            with d.popover("AFI Visual Sys", use_container_width = True):
+                st.markdown("AFI Visual System Done")
+                dfcont = st.container(border=True)
+                dfcont.dataframe(afivissysdonedf)
+
+            with e.popover("AFI Visual Not Done", use_container_width = True):
+                st.markdown("AFI Visual Not Done Yet")
+                dfcont = st.container(border=True)
+                dfcont.dataframe(afivisnotdonedf)
+
+            with f.popover("AFI Visual Done", use_container_width = True):
+                st.markdown("AFI Visual Done")
+                dfcont = st.container(border=True)
+                dfcont.dataframe(afivisdonedf)
+
+            a, b, c = cons_container.columns(3)
+
+            if selected_line != "All" : 
+                with a.popover("Joint Detail", use_container_width = True, ):
+                    st.markdown("Joint Detail")
+                    dfcont = st.container(border = True)
+                    joint_detail = piping_progress[["Sub Area", "LINE NO", "Drawing No.", "REV", "PAGE", "JOINT NO", "JOINT TYPE", "PIPE SPOOL", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "Comment"]]
+                    joint_detail = joint_detail.head(1).T
+                    joint_detail.columns = ["Detail"]
+                    dfcont.dataframe(joint_detail, width = 2000) 
+
+                with b.popover("Construction Detail", use_container_width = True):
+                    st.markdown("Construction Detail")
+                    dfcont = st.container(border = True)
+                    cons_detail = piping_progress[["FIT-UP RECORD DATE", "FIT-UP RECORD SW", "FIT-UP RECORD FW", "FU SPV", "WELDING RECORD DATE", "WELDING RECORD SW", "WELDING RECORD FW", "W SPV", "W STAMP"]]
+                    cons_detail = cons_detail.head(1).T
+                    cons_detail.columns = ["Detail"]
+                    dfcont.dataframe(cons_detail, width = 2000)
+
+                with c.popover("AFI Detail", use_container_width = True):
+                    st.markdown("AFI Detail")
+                    dfcont = st.container(border = True)
+                    afidetail = piping_progress[["QAQC AFI F/U DATE", "QAQC AFI F/U NO", "QAQC AFI F/U RES", "QAQC VISUAL DATE", "QAQC VISUAL NO", "QAQC VISUAL RES"]]
+
+                    afidetail = afidetail.head(1).T
+                    afidetail.columns = ["Detail"]
+                    dfcont.dataframe(afidetail, width = 2000)
+            
+            else:
+                with a.popover("Joint Detail", use_container_width = True, disabled=True):
+                    st.markdown("Joint Detail")
+
+                with b.popover("Construction Detail", use_container_width = True, disabled=True):
+                    st.markdown("Construction Detail")
+
+                with c.popover("AFI Detail", use_container_width = True, disabled=True):
+                    st.markdown("AFI Detail")
 
         detail_table = st.container(border = True)
         
@@ -596,7 +677,7 @@ try:
 
             val = []
             opt = ["Construction", 'AFI', "Claim", "Primary Material", "Secondary Material", "Tertiary Material"]
-            datashowed= st.pills("Show Data", opt, selection_mode="multi")
+            datashowed= st.pills("Data Showed", opt, selection_mode="multi")
             for i in opt:
                 if i in datashowed:
                     val.append(i)
@@ -631,49 +712,13 @@ try:
             afi_container = st.container(border=True)
             afi_container.subheader("AFI MONITORING", anchor = False)
 
-            afi_container.metric(label = "AFI F/U Approved (Joint)", value = f"{afifujoint:,.0f}",delta = "Unapproved : {:,.0f} from {:,.0f}".format(afifujoint_notyet, total_joint), delta_color="inverse", border = True)
-            afi_container.metric(label = "AFI F/U Approved (ID)", value = f"{afifuid:,.2f}",delta = "Unapproved : {:,.2f} from {:,.2f}".format(afifuid_notyet, total_id), delta_color="inverse", border = True)
+            afi_container.metric(label = "AFI F/U Approved (Joint)", value = f"{afifujoint:,.0f}",delta = "Unapproved : {:,.0f} of {:,.0f}".format(afifujoint_notyet, total_joint), delta_color="inverse", border = True)
+            afi_container.metric(label = "AFI F/U Approved (ID)", value = f"{afifuid:,.2f}",delta = "Unapproved : {:,.2f} of {:,.2f}".format(afifuid_notyet, total_id), delta_color="inverse", border = True)
+            afi_container.metric(label = "AFI F/U System Completed", value = f"{afifusysdone}", delta = f"Not Completed : {system-afifusysdone} of {system}", delta_color = "inverse", border = True)
+            afi_container.divider()
             afi_container.metric(label = "AFI Visual Approved (Joint)", value = f"{afivisjoint:,.0f}",delta = "Unapproved : {:,.0f} from {:,.0f}".format(afivisjoint_notyet, total_joint), delta_color="inverse", border = True)
             afi_container.metric(label = "AFI Visual Approved (ID)", value = f"{afivisid:,.2f}",delta = "Unapproved : {:,.2f} from {:,.2f}".format(afivisid_notyet, total_id), delta_color="inverse", border = True)
-            
-            detail_container = st.container(border = True)
-            detail_container.markdown("###### Details")
-
-            if selected_line != "All" : 
-                with detail_container.popover("Joint Detail", use_container_width = True, ):
-                    st.markdown("Joint Detail")
-                    dfcont = st.container(border = True)
-                    joint_detail = piping_progress[["Sub Area", "LINE NO", "Drawing No.", "REV", "PAGE", "JOINT NO", "JOINT TYPE", "PIPE SPOOL", "DIA-INCH PLAN SW", "DIA-INCH PLAN FW", "Comment"]]
-                    joint_detail = joint_detail.head(1).T
-                    joint_detail.columns = ["Detail"]
-                    dfcont.dataframe(joint_detail, width = 2000) 
-
-                with detail_container.popover("Construction Detail", use_container_width = True):
-                    st.markdown("Construction Detail")
-                    dfcont = st.container(border = True)
-                    cons_detail = piping_progress[["FIT-UP RECORD DATE", "FIT-UP RECORD SW", "FIT-UP RECORD FW", "FU SPV", "WELDING RECORD DATE", "WELDING RECORD SW", "WELDING RECORD FW", "W SPV", "W STAMP"]]
-                    cons_detail = cons_detail.head(1).T
-                    cons_detail.columns = ["Detail"]
-                    dfcont.dataframe(cons_detail, width = 2000)
-
-                with detail_container.popover("AFI Detail", use_container_width = True):
-                    st.markdown("AFI Detail")
-                    dfcont = st.container(border = True)
-                    afidetail = piping_progress[["QAQC AFI F/U DATE", "QAQC AFI F/U NO", "QAQC AFI F/U RES", "QAQC VISUAL DATE", "QAQC VISUAL NO", "QAQC VISUAL RES"]]
-
-                    afidetail = afidetail.head(1).T
-                    afidetail.columns = ["Detail"]
-                    dfcont.dataframe(afidetail, width = 2000)
-            
-            else:
-                with detail_container.popover("Joint Detail", use_container_width = True, disabled=True):
-                    st.markdown("Joint Detail")
-
-                with detail_container.popover("Construction Detail", use_container_width = True, disabled=True):
-                    st.markdown("Construction Detail")
-
-                with detail_container.popover("AFI Detail", use_container_width = True, disabled=True):
-                    st.markdown("AFI Detail")
+            afi_container.metric(label = "AFI Visual System Completed", value = f"{afivissysdone}", delta = f"Not Completed : {system-afivissysdone} of {system}", delta_color = "inverse", border = True)
 
         matl_container = st.container(border = True)
         with matl_container:
@@ -846,6 +891,7 @@ try:
             db_matl = db_matl[["MatCode dev", "TYPE", "MATL TYPE","GRUP material","Standard Matl Name", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM", "keycode"]]
             
             col1, col2, col3, col4, col5, col6 = matl_container.columns(6)
+
 
             # Menampilkan editor data
             event = st.dataframe(db_matl, selection_mode="multi-row", on_select="rerun", use_container_width=True)

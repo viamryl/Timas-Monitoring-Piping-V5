@@ -398,7 +398,7 @@ if __name__ == '__main__':
         logging.info("TIMAS SUPLINDO - Developed by Auvi A")
 
     except Exception as e:
-        logging.critical("An critical occurred: {e}")
+        logging.critical(f"An critical occurred: {e}")
         logging.critical(traceback.format_exc())
 
         for i in range(120, 0, -1):
