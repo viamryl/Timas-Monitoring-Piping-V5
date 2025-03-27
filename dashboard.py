@@ -799,7 +799,7 @@ try:
             middleright_col.metric(label = "Balance MTO", value = "{:,.2f}".format(mir["QTY TOTAL"].sum()-mto["QTY"].sum()), border = True)
             right_col.metric(label = "Balance SR", value = "{:,.2f}".format(mir["QTY HAULING"].sum()-mir["QTY TOTAL"].sum()), border = True)
             
-            matl_container.markdown("##### SR")
+            matl_container.markdown("##### Store Requisition                                                                                                            ")
             st.dataframe(mir[["SR / MIR NO", "Standard Matl Name", "QTY TOTAL", "QTY HAULING"]], width=2000, height = 360)       
 
             matl_container.markdown("##### Summary Material")
