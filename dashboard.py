@@ -807,177 +807,177 @@ try:
 
     with matl_tab:
         matl_tab.markdown("# ^\_^ THIS PAGE IS UNDER DEVELOPMENT ^_^")
-        mirexist = pd.read_csv(r"D:\Dashboard\Pertamina\Monitoring Piping Crude\MIR for dashboard.csv")
+        # mirexist = pd.read_csv(r"D:\Dashboard\Pertamina\Monitoring Piping Crude\MIR for dashboard.csv")
 
-        if "mirnum" not in st.session_state:
-            st.session_state.mirnum = None
-        if "mir_confirmed" not in st.session_state:
-            st.session_state.mir_confirmed = False
-        if "dumpdf" not in st.session_state:
-            st.session_state.dumpdf = pd.DataFrame(columns = ["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name"])
+        # if "mirnum" not in st.session_state:
+        #     st.session_state.mirnum = None
+        # if "mir_confirmed" not in st.session_state:
+        #     st.session_state.mir_confirmed = False
+        # if "dumpdf" not in st.session_state:
+        #     st.session_state.dumpdf = pd.DataFrame(columns = ["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name"])
 
-        def clear_mirnum():
-            st.session_state.mirnum = None
-            st.rerun()
+        # def clear_mirnum():
+        #     st.session_state.mirnum = None
+        #     st.rerun()
 
-        @st.dialog("⚠ WARNING: MIR NO IS EXISTED!", width = "large")
-        def check():
-            st.write("Are you sure to continue?")
-            if st.button("Agree"):
-                st.session_state.mir_confirmed = True 
-                st.rerun()
-            if st.button("Cancel Input"):
-                clear_mirnum()
+        # @st.dialog("⚠ WARNING: MIR NO IS EXISTED!", width = "large")
+        # def check():
+        #     st.write("Are you sure to continue?")
+        #     if st.button("Agree"):
+        #         st.session_state.mir_confirmed = True 
+        #         st.rerun()
+        #     if st.button("Cancel Input"):
+        #         clear_mirnum()
 
-        @st.dialog("!INFO!", width = "large")
-        def hasbeensaved(what):
-            st.write(f"{what} HAS BEEN SAVERD")
-            if st.button("Close"):
-                st.rerun()
+        # @st.dialog("!INFO!", width = "large")
+        # def hasbeensaved(what):
+        #     st.write(f"{what} HAS BEEN SAVERD")
+        #     if st.button("Close"):
+        #         st.rerun()
         
 
-        def callback():
-            edited_rows = st.session_state["data_editor"]["edited_rows"]
-            rows_to_delete = []
+        # def callback():
+        #     edited_rows = st.session_state["data_editor"]["edited_rows"]
+        #     rows_to_delete = []
 
-            for idx, value in edited_rows.items():
-                if value["Del"] is True:
-                    rows_to_delete.append(idx)
+        #     for idx, value in edited_rows.items():
+        #         if value["Del"] is True:
+        #             rows_to_delete.append(idx)
 
-            st.session_state["dumpdf"] = (
-                st.session_state["dumpdf"].drop(rows_to_delete, axis=0).reset_index(drop=True)
-            )
+        #     st.session_state["dumpdf"] = (
+        #         st.session_state["dumpdf"].drop(rows_to_delete, axis=0).reset_index(drop=True)
+        #     )
 
-        def addmir():
-            pass
+        # def addmir():
+        #     pass
 
 
-        if "selected_rows" not in st.session_state:
-            st.session_state.selected_rows = []
-        matl_container = st.container(border=True)
-        with matl_container:
-            st.subheader("EXISTING MIR", anchor = False)
-            mirexist["TYPE"]=mirexist["TYPE"].astype(str)
-            # column_config_mirexist = {col: st.column_config.TextColumn(label=col) for col in mirexist.columns}
-            mirexist = st.data_editor(mirexist, column_config={
-                "TYPE" : st.column_config.TextColumn("TYPE")
-            }, num_rows="dynamic")
-            st.divider()
-            matl_container.subheader("INPUT NEW MIR", anchor=False)
+        # if "selected_rows" not in st.session_state:
+        #     st.session_state.selected_rows = []
+        # matl_container = st.container(border=True)
+        # with matl_container:
+        #     st.subheader("EXISTING MIR", anchor = False)
+        #     mirexist["TYPE"]=mirexist["TYPE"].astype(str)
+        #     # column_config_mirexist = {col: st.column_config.TextColumn(label=col) for col in mirexist.columns}
+        #     mirexist = st.data_editor(mirexist, column_config={
+        #         "TYPE" : st.column_config.TextColumn("TYPE")
+        #     }, num_rows="dynamic")
+        #     st.divider()
+        #     matl_container.subheader("INPUT NEW MIR", anchor=False)
 
-            col1, col2, col3, col4, col5, col6 = matl_container.columns(6)
-            mirno = col1.text_input("MIR NO", key="mirnum") 
+        #     col1, col2, col3, col4, col5, col6 = matl_container.columns(6)
+        #     mirno = col1.text_input("MIR NO", key="mirnum") 
 
-            if mirno and mirno.upper() in mirexist["PL/SR"].astype(str).tolist() and not st.session_state.mir_confirmed:
-                check() 
-            else : 
-                st.session_state.mir_confirmed = False
+        #     if mirno and mirno.upper() in mirexist["PL/SR"].astype(str).tolist() and not st.session_state.mir_confirmed:
+        #         check() 
+        #     else : 
+        #         st.session_state.mir_confirmed = False
 
-            vendor = col2.text_input("Vendor Code")
-            mirdate = col3.date_input("MIR DATE")
-            actiondate = col4.date_input("Action Date")
-            statussr = col5.text_input("Status SR")
-            area = col6.text_input("Area")
+        #     vendor = col2.text_input("Vendor Code")
+        #     mirdate = col3.date_input("MIR DATE")
+        #     actiondate = col4.date_input("Action Date")
+        #     statussr = col5.text_input("Status SR")
+        #     area = col6.text_input("Area")
 
-            matl_container.subheader("MATERIAL DB", anchor = False)
-            db_matl = pd.read_csv("D://Dashboard/DB MATL.csv")
-            db_matl["keycode"] = (
-                db_matl[["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk"]]
-                .fillna('')
-                .astype(str)
-                .apply(lambda row: ' '.join(filter(None, row)), axis=1)
-            )
+        #     matl_container.subheader("MATERIAL DB", anchor = False)
+        #     db_matl = pd.read_csv("D://Dashboard/DB MATL.csv")
+        #     db_matl["keycode"] = (
+        #         db_matl[["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk"]]
+        #         .fillna('')
+        #         .astype(str)
+        #         .apply(lambda row: ' '.join(filter(None, row)), axis=1)
+        #     )
 
-            db_matl = db_matl[["MatCode dev", "TYPE", "MATL TYPE","GRUP material","Standard Matl Name", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM", "keycode"]]
+        #     db_matl = db_matl[["MatCode dev", "TYPE", "MATL TYPE","GRUP material","Standard Matl Name", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM", "keycode"]]
             
-            col1, col2, col3, col4, col5, col6 = matl_container.columns(6)
+        #     col1, col2, col3, col4, col5, col6 = matl_container.columns(6)
 
 
-            # Menampilkan editor data
-            event = st.dataframe(db_matl, selection_mode="multi-row", on_select="rerun", use_container_width=True)
+        #     # Menampilkan editor data
+        #     event = st.dataframe(db_matl, selection_mode="multi-row", on_select="rerun", use_container_width=True)
 
-            matl_container.subheader("MIR PREVIEW", anchor = False)
-            selected_item = db_matl.loc[event.selection["rows"]]
-            selected_item = selected_item[["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name", "MatCode dev"]]
-            selected_item["No Item"] = [i+1 for i in range(len(selected_item))]
-            selected_item["Qty Total"] = None
-            selected_item["NS"] = mirexist["NS"].max() +1
-            selected_item["Ident Code"] = None
-            selected_item["Tag Number / PO Number"] = None
-            selected_item["PL/SR"] = mirno
-            selected_item["Project/Vendor Code"] = vendor
-            selected_item["SR Date"] = mirdate
-            selected_item["Date Action"] = actiondate
-            selected_item["Status SR"] = statussr
-            selected_item["Area"] = area
-            selected_item["THK 2"] = None
-            selected_item["Qty Hauling"] = None
-            selected_item["Qty Outstanding"] = None
-            selected_item["Status Hauling"] = None
-            selected_item["Remarks 1"] = area
-            selected_item["Remarks 1.1"] = None
-            selected_item["SML"] = None
-            selected_item["SMOA"] = None
-            selected_item =selected_item[["No Item", "Project/Vendor Code", "NS", "PL/SR","SR Date", "Date Action", "TYPE", "MATL TYPE", 
-                                        "GRUP material",  "Base size 1", "Base size 2", "Class / Sch", "Thk", "THK 2", "Standard Matl Name", 
-                                        "MatCode dev", "Ident Code", "Tag Number / PO Number", "Qty Total","Qty Hauling", "Qty Outstanding","UOM", 
-                                        "Status Hauling", "Status SR", "Remarks 1", "Remarks 1.1", "SML", "SMOA"]]
+        #     matl_container.subheader("MIR PREVIEW", anchor = False)
+        #     selected_item = db_matl.loc[event.selection["rows"]]
+        #     selected_item = selected_item[["TYPE", "MATL TYPE","GRUP material", "Class / Sch", "Base size 1", "Base size 2", "Thk", "UOM","Standard Matl Name", "MatCode dev"]]
+        #     selected_item["No Item"] = [i+1 for i in range(len(selected_item))]
+        #     selected_item["Qty Total"] = None
+        #     selected_item["NS"] = mirexist["NS"].max() +1
+        #     selected_item["Ident Code"] = None
+        #     selected_item["Tag Number / PO Number"] = None
+        #     selected_item["PL/SR"] = mirno
+        #     selected_item["Project/Vendor Code"] = vendor
+        #     selected_item["SR Date"] = mirdate
+        #     selected_item["Date Action"] = actiondate
+        #     selected_item["Status SR"] = statussr
+        #     selected_item["Area"] = area
+        #     selected_item["THK 2"] = None
+        #     selected_item["Qty Hauling"] = None
+        #     selected_item["Qty Outstanding"] = None
+        #     selected_item["Status Hauling"] = None
+        #     selected_item["Remarks 1"] = area
+        #     selected_item["Remarks 1.1"] = None
+        #     selected_item["SML"] = None
+        #     selected_item["SMOA"] = None
+        #     selected_item =selected_item[["No Item", "Project/Vendor Code", "NS", "PL/SR","SR Date", "Date Action", "TYPE", "MATL TYPE", 
+        #                                 "GRUP material",  "Base size 1", "Base size 2", "Class / Sch", "Thk", "THK 2", "Standard Matl Name", 
+        #                                 "MatCode dev", "Ident Code", "Tag Number / PO Number", "Qty Total","Qty Hauling", "Qty Outstanding","UOM", 
+        #                                 "Status Hauling", "Status SR", "Remarks 1", "Remarks 1.1", "SML", "SMOA"]]
             
-            selected_item = selected_item.rename(columns = {
-                "GRUP material" : "GROUP MATERIAL",
-                "Base size 1" : "BASE SIZE 1",
-                "Base size 2" : "BASE SIZE 2",
-                "Class / Sch" : "CLASS / SCH",
-                "Thk" : "THK 1",
-                "MatCode dev" : "Matl Code"
-            })
-            selected_item_df= st.data_editor(selected_item, num_rows="dynamic",column_config={
-                "MIR QTY" : st.column_config.NumberColumn(width="medium", required=True),
-                "IDENT CODE" : st.column_config.TextColumn(),
-                "PO NUMBER" : st.column_config.TextColumn()
-            }, disabled = ["No Item", "Project/Vendor Code", "NS", "PL/SR","SR Date", "Date Action", "TYPE", "TYPE Material", 
-                                        "GRUP material",  "Base size 1", "Base size 2", "Class / Sch", "Thk", "THK 2", "Standard Matl Name", 
-                                        "MatCode dev","Qty Hauling", "Qty Outstanding","UOM", 
-                                        "Status Hauling", "Status SR", "Remarks 1", "Remarks 1.1", "SML", "SMOA"])
+        #     selected_item = selected_item.rename(columns = {
+        #         "GRUP material" : "GROUP MATERIAL",
+        #         "Base size 1" : "BASE SIZE 1",
+        #         "Base size 2" : "BASE SIZE 2",
+        #         "Class / Sch" : "CLASS / SCH",
+        #         "Thk" : "THK 1",
+        #         "MatCode dev" : "Matl Code"
+        #     })
+        #     selected_item_df= st.data_editor(selected_item, num_rows="dynamic",column_config={
+        #         "MIR QTY" : st.column_config.NumberColumn(width="medium", required=True),
+        #         "IDENT CODE" : st.column_config.TextColumn(),
+        #         "PO NUMBER" : st.column_config.TextColumn()
+        #     }, disabled = ["No Item", "Project/Vendor Code", "NS", "PL/SR","SR Date", "Date Action", "TYPE", "TYPE Material", 
+        #                                 "GRUP material",  "Base size 1", "Base size 2", "Class / Sch", "Thk", "THK 2", "Standard Matl Name", 
+        #                                 "MatCode dev","Qty Hauling", "Qty Outstanding","UOM", 
+        #                                 "Status Hauling", "Status SR", "Remarks 1", "Remarks 1.1", "SML", "SMOA"])
 
-            if st.button("Save MIR"):
-                mirexist = pd.concat([mirexist, selected_item_df], ignore_index=True)
-                mirexist.to_csv("D:/Dashboard/Pertamina/MIR TEMPLATE - Copy.csv", index=False)
-                del st.session_state.mirnum
-                hasbeensaved("MIR")
+        #     if st.button("Save MIR"):
+        #         mirexist = pd.concat([mirexist, selected_item_df], ignore_index=True)
+        #         mirexist.to_csv("D:/Dashboard/Pertamina/MIR TEMPLATE - Copy.csv", index=False)
+        #         del st.session_state.mirnum
+        #         hasbeensaved("MIR")
 
-            st.divider()
-            st.subheader("HAULING INPUT", anchor = False)
+        #     st.divider()
+        #     st.subheader("HAULING INPUT", anchor = False)
 
-            col1, col2 = st.columns(2)
+        #     col1, col2 = st.columns(2)
             
-            st.session_state.haulingdf = mirexist
-            mirnumber = col1.selectbox("Select MIR Number", options = ["All"] + st.session_state.haulingdf["SR / MIR NO"].unique().tolist())
+        #     st.session_state.haulingdf = mirexist
+        #     mirnumber = col1.selectbox("Select MIR Number", options = ["All"] + st.session_state.haulingdf["SR / MIR NO"].unique().tolist())
 
-            st.session_state.haulingdf = mirexist[["No Item","NS","SR / MIR NO", "Standard Matl Name", "QTY TOTAL","QTY OUTSTANDING", "QTY HAULING","UOM"]]
-            if mirnumber != "All":
-                st.session_state.haulingdf = st.session_state.haulingdf[st.session_state.haulingdf["PL/SR"] == mirnumber]
-            else:
-                st.session_state.haulingdf = st.session_state.haulingdf
+        #     st.session_state.haulingdf = mirexist[["No Item","NS","SR / MIR NO", "Standard Matl Name", "QTY TOTAL","QTY OUTSTANDING", "QTY HAULING","UOM"]]
+        #     if mirnumber != "All":
+        #         st.session_state.haulingdf = st.session_state.haulingdf[st.session_state.haulingdf["PL/SR"] == mirnumber]
+        #     else:
+        #         st.session_state.haulingdf = st.session_state.haulingdf
 
-            item_selected = col2.selectbox("Select Matl Name", options = ["All"] + st.session_state.haulingdf["Standard Matl Name"].unique().tolist())
-            if item_selected != "All":
-                st.session_state.haulingdf = st.session_state.haulingdf[st.session_state.haulingdf["Standard Matl Name"] == item_selected]
-            else:
-                st.session_state.haulingdf = st.session_state.haulingdf
+        #     item_selected = col2.selectbox("Select Matl Name", options = ["All"] + st.session_state.haulingdf["Standard Matl Name"].unique().tolist())
+        #     if item_selected != "All":
+        #         st.session_state.haulingdf = st.session_state.haulingdf[st.session_state.haulingdf["Standard Matl Name"] == item_selected]
+        #     else:
+        #         st.session_state.haulingdf = st.session_state.haulingdf
 
-            nantiberguna = ["No Item","NS","PL/SR", "Standard Matl Name", "Qty Total","Qty Outstanding","UoM"]
-            hauling_edited = st.dataframe(st.session_state.haulingdf, use_container_width=True, selection_mode="multi-row", on_select="rerun")
+        #     nantiberguna = ["No Item","NS","PL/SR", "Standard Matl Name", "Qty Total","Qty Outstanding","UoM"]
+        #     hauling_edited = st.dataframe(st.session_state.haulingdf, use_container_width=True, selection_mode="multi-row", on_select="rerun")
 
-            selected_forhauling = st.session_state.haulingdf.loc[hauling_edited.selection["rows"]]
-            selected_forhauling = st.data_editor(selected_forhauling, use_container_width=True, disabled = nantiberguna)
+        #     selected_forhauling = st.session_state.haulingdf.loc[hauling_edited.selection["rows"]]
+        #     selected_forhauling = st.data_editor(selected_forhauling, use_container_width=True, disabled = nantiberguna)
 
-            if st.button("Save Hauling"):
-                hauling_edited.to_csv("D://Dashboard/Pertamina/Hauling.csv", index = False)
-                mirexist["Qty Hauling"] = hauling_edited["Qty Hauling"]
-                mirexist["Qty Outstanding"] = mirexist["Qty Total"] - mirexist["Qty Hauling"]
-                mirexist.to_csv("D:/Dashboard/Pertamina/MIR TEMPLATE - Copy.csv", index=False)
-                hasbeensaved("HAULING")
+        #     if st.button("Save Hauling"):
+        #         hauling_edited.to_csv("D://Dashboard/Pertamina/Hauling.csv", index = False)
+        #         mirexist["Qty Hauling"] = hauling_edited["Qty Hauling"]
+        #         mirexist["Qty Outstanding"] = mirexist["Qty Total"] - mirexist["Qty Hauling"]
+        #         mirexist.to_csv("D:/Dashboard/Pertamina/MIR TEMPLATE - Copy.csv", index=False)
+        #         hasbeensaved("HAULING")
 
 except TypeError:
     pass

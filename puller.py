@@ -307,6 +307,7 @@ if __name__ == '__main__':
         ppcdata["PPC CLAIM REPORT PUNCHLIST 10%"] = ppcdata.apply(lambda x: x["TOTAL"]*0.1 if pd.notna(x["QAQC VISUAL DATE"]) else np.nan, axis=1)
         ppcdata["PPC CLAIM REPORT TOTAL"] = ppcdata["PPC CLAIM REPORT FABS 30%"] + ppcdata["PPC CLAIM REPORT INSTALL 60%"] + ppcdata["PPC CLAIM REPORT PUNCHLIST 10%"]
         ppcdata["CUMM"] = ppcdata["PPC CLAIM REPORT TOTAL"]
+        ppcclaimdata = ppcdata[ppcols + ["PK"]]
         ppcdata = ppcdata[constructioncols + ["PK"]]
         matlalldata = load_data(mto_path,sheet_name,3, matlallcols, True)
         matldata = matlalldata[matlcols + ["PK"]]
@@ -373,9 +374,11 @@ if __name__ == '__main__':
         progress_merge = pd.merge(progress_merge, srdata, on = "PK", how = "left", sort = False)
         progress_merge = pd.merge(progress_merge, ppcdata, on = "PK", how = "left", sort = False)
         progress_merged = pd.merge(progress_merge, qcdata, on = "PK", how = "left", sort = False)
+        progress_merged = pd.merge(progress_merged, ppcclaimdata, on = "PK", how = "left", sort = False)
         eng_merged = pd.merge(engalldata, matldata, on = "PK", how = "left", sort = False)
         eng_merged = pd.merge(eng_merged, srdata, on = "PK", how = "left", sort = False)
         eng_merged = pd.merge(eng_merged, qcdata, on = "PK", how = "left", sort = False)
+        eng_merged = pd.merge(eng_merged, ppcclaimdata, on = "PK", how = "left", sort = False)
         eng_merged = eng_merged[progress_merged.columns.tolist()]
 
         logging.info("Produce Data")

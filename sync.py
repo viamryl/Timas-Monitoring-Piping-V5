@@ -219,7 +219,7 @@ def write_data(df, destination_path, sheetname, startrow, startcol, pk = "PK", t
                 ws.cell(row=startrow + i, column=n, value = f'=IF({vafivis}{startrow+i}>0,{vc}{startrow + i}*30%,"")')
                 ws.cell(row=startrow + i, column=o, value = f'=IF({vafivis}{startrow+i}>0,{vc}{startrow + i}*60%,"")')
                 ws.cell(row=startrow + i, column=p, value = f'=IF({vafivis}{startrow+i}>0,{vc}{startrow + i}*10%,"")')
-                ws.cell(row=startrow + i, column=q, value = f'={vn}{startrow + i} + {vo}{startrow + i} + {vp}{startrow + i}')
+                ws.cell(row=startrow + i, column=q, value = f'=IFERROR({vn}{startrow + i} + {vo}{startrow + i} + {vp}{startrow + i},"")')
                 ws.cell(row=startrow + i, column=r, value = f'={vq}{startrow + i}')
             if typedf == "matl":
                 ws.cell(row=startrow + i, column=pa, value = f"=IFERROR(IF(INDEX('DB MATL'!${dbb}:${dbb}, MATCH(${vpcode}{startrow + i}, 'DB MATL'!${dba}:${dba}, 0)) = 0, \"\", INDEX('DB MATL'!${dbb}:${dbb}, MATCH(${vpcode}{startrow + i}, 'DB MATL'!${dba}:${dba}, 0))), \"\")")
