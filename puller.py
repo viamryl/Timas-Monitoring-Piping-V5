@@ -340,16 +340,6 @@ if __name__ == '__main__':
                 mirdata.drop(columns = i+"_dup", inplace = True)
                 mtodata[i] = mtodata[i].fillna(mtodata[i+"_dup"])
                 mtodata.drop(columns = i+"_dup", inplace = True)
-        for i in dbexcols :
-            matlalldata["P "+ i] = matlalldata["P "+ i].fillna(matlalldata[i])
-            matlalldata["S "+ i] = matlalldata["S "+ i].fillna(matlalldata[i+"_S"])
-            matlalldata["T "+ i] = matlalldata["T "+ i].fillna(matlalldata[i+"_T"])
-            matlalldata.drop(columns = i, inplace=True)
-            matlalldata.drop(columns = i+"_S", inplace=True)
-            matlalldata.drop(columns = i+"_T", inplace=True)
-            if i != "MATL CODE":
-                mirdata[i] = mirdata[i].fillna(mirdata[i+"_dup"])
-                mirdata.drop(columns = i+"_dup", inplace = True)
         matldata = matlalldata[matlcols+["PK"]]
         matldata["PK"] = matldata["PK"].astype(str)
         mirdata["Status Hauling"] = mirdata["QTY OUTSTANDING"].fillna(0).apply(lambda x: "OPEN" if x != 0 else "CLOSE")
