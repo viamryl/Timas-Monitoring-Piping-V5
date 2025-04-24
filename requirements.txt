@@ -4,3 +4,5 @@ pandas==2.2.3
 st_theme==1.2.3
 streamlit==1.42.0
 streamlit_autorefresh==1.0.1
+pyinstaller
+fsspec
