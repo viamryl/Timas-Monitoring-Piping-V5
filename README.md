@@ -99,7 +99,14 @@ Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxh
   Currently, the pipeline is packaged in a .exe file, which makes data pipeline monitoring and maintenance difficult. The use of Apache Airflow is expected to simplify the development and maintenance of scripts and the pipeline.
 - Potential use of Nginx (or other webserver). </br>
 
+## Dashboard Preview
+![Screenshot (280)](https://github.com/user-attachments/assets/ff8b2bcc-74d8-4257-8509-346ce04159d1)
+![Screenshot (281)](https://github.com/user-attachments/assets/7a77a00d-deb2-4e41-9ae0-b173ff6f59a3)
+![Screenshot (282)](https://github.com/user-attachments/assets/1e493f66-3bac-40ad-ab69-efbe2e6e0edf)
+![Screenshot (283)](https://github.com/user-attachments/assets/3064483e-fa88-4282-857a-9c58a11019d5)
+
 ## Ownership
-TIMAS SUPLINDO  
-Developed by [Auvi. A.](https://www.linkedin.com/in/auviamril/) <br/>
-Assisted by Github Copilot and OpenAI (Big Thanks to Sam Altman)
+
+> TIMAS SUPLINDO  
+> Developed by [Auvi. A.](https://www.linkedin.com/in/auviamril/) <br/>
+> Assisted by Github Copilot and OpenAI (Big Thanks to Sam Altman)
