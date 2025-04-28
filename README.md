@@ -49,7 +49,7 @@ Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxh
 - Set up task sheduler both for puller.exe and syncronization.exe for each plant
   <p align='left'><img src = "https://github.com/user-attachments/assets/b1071e66-fba7-4f4b-a88d-3e7dde5ff6d9", width = 700> </br>
   Set the task scheduler to run daily. It is recommended to schedule syncronization.exe to run once every day at 1:00 AM and puller.exe every 10 minutes. Then, select the executable file that was generated earlier.</br>
-  <strong>Repeat steps 1-5 for each piping plant / area in the project.</strong>
+  <strong>Repeat steps 5-7 for each piping plant / area in the project.</strong>
 - Edit dashboard path on [`./dashboard.py`](./dashboard.py)
   ![presentasi 1 timas (19)](https://github.com/user-attachments/assets/2d3cd2b5-48cb-4196-80fc-e5f497bae5e6)
   ![presentasi 1 timas (20)](https://github.com/user-attachments/assets/c94ddb88-4f48-4ac1-9f18-f9777755327f)
