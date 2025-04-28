@@ -10,7 +10,7 @@ The program consists of 4 sub-products :
 - Script (Python and .exe) <br />
   The Python script is a data pipeline program designed to perform ETL (Extract, Transform, Load) processes for data across departments and prepare the data for visualization on the dashboard. Additionally, it also performs periodic data retrieval to update the data on the dashboard.
 - Dashboard <br />
-  A Streamlit-based dashboard that will display semi-real-time reports.
+  A web-based dashboard that will display semi-real-time reports.
 
 ## Program Logic & Workflow
 - PIPING PROGRESS data syncronization workflow
