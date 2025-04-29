@@ -10,7 +10,7 @@ The program consists of 4 sub-products :
 - Script (Python and .exe) <br />
   The Python script is a data pipeline program designed to perform ETL (Extract, Transform, Load) processes for data across departments and prepare the data for visualization on the dashboard. Additionally, it also performs periodic data retrieval to update the data on the dashboard.
 - Dashboard <br />
-  A Streamlit-based dashboard that will display semi-real-time reports.
+  A web-based dashboard that will display semi-real-time reports.
 
 ## Program Logic & Workflow
 - PIPING PROGRESS data syncronization workflow
@@ -49,7 +49,7 @@ Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxh
 - Set up task sheduler both for puller.exe and syncronization.exe for each plant
   <p align='left'><img src = "https://github.com/user-attachments/assets/b1071e66-fba7-4f4b-a88d-3e7dde5ff6d9", width = 700> </br>
   Set the task scheduler to run daily. It is recommended to schedule syncronization.exe to run once every day at 1:00 AM and puller.exe every 10 minutes. Then, select the executable file that was generated earlier.</br>
-  <strong>Repeat steps 1-5 for each piping plant / area in the project.</strong>
+  <strong>Repeat steps 5-7 for each piping plant / area in the project.</strong>
 - Edit dashboard path on [`./dashboard.py`](./dashboard.py)
   ![presentasi 1 timas (19)](https://github.com/user-attachments/assets/2d3cd2b5-48cb-4196-80fc-e5f497bae5e6)
   ![presentasi 1 timas (20)](https://github.com/user-attachments/assets/c94ddb88-4f48-4ac1-9f18-f9777755327f)
@@ -99,7 +99,14 @@ Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxh
   Currently, the pipeline is packaged in a .exe file, which makes data pipeline monitoring and maintenance difficult. The use of Apache Airflow is expected to simplify the development and maintenance of scripts and the pipeline.
 - Potential use of Nginx (or other webserver). </br>
 
+## Dashboard Preview
+![Screenshot (280)](https://github.com/user-attachments/assets/ff8b2bcc-74d8-4257-8509-346ce04159d1)
+![Screenshot (281)](https://github.com/user-attachments/assets/7a77a00d-deb2-4e41-9ae0-b173ff6f59a3)
+![Screenshot (282)](https://github.com/user-attachments/assets/1e493f66-3bac-40ad-ab69-efbe2e6e0edf)
+![Screenshot (283)](https://github.com/user-attachments/assets/3064483e-fa88-4282-857a-9c58a11019d5)
+
 ## Ownership
-TIMAS SUPLINDO  
-Developed by [Auvi. A.](https://www.linkedin.com/in/auviamril/) <br/>
-Assisted by Github Copilot and OpenAI (Big Thanks to Sam Altman)
+
+> TIMAS SUPLINDO  
+> Developed by [Auvi. A.](https://www.linkedin.com/in/auviamril/) <br/>
+> Assisted by Github Copilot and OpenAI (Big Thanks to Sam Altman)
