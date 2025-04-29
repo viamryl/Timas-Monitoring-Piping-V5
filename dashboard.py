@@ -90,6 +90,12 @@ st.markdown("""
                 box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
             }
 
+            img[data-testid="stLogo"] {
+            padding-top: 0.6rem;
+            padding-left: 2rem;
+            height: 3.5rem;
+            }
+
             .footer {
                 position: fixed;
                 bottom: 0;
@@ -106,8 +112,8 @@ st.markdown("""
             .block-container {
                     padding-top: 0rem;
                     padding-bottom: 3rem;
-                    padding-left: 5rem;
-                    padding-right: 5rem;
+                    padding-left: 4rem;
+                    padding-right: 4rem;
                 }
             </style>
             <div class="footer">
@@ -225,10 +231,11 @@ try:
         with st.sidebar:
             theme = st_theme()["base"]
             if theme == "dark":
-                st.image("assets/timasputih.png")
+                st.logo("assets/timasputih.png", size = "large")
             else : 
-                st.image("assets/timaspanjang.png")
-            st.title("Options")
+                st.logo("assets/timaspanjang.png", size = "large")
+            st.divider()
+            st.subheader("Options")
             
             plant = st.selectbox("Choose Plant", options = ["Crude"])
 
