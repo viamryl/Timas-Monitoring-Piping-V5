@@ -35,7 +35,7 @@ The program consists of 4 sub-products :
 Manual Guide Video : [Click Here](https://drive.google.com/file/d/1KkjFeD_uhZxxhkOovBEi7q2EUmgueQ0R/view?usp=sharing)
 - Install Python 3 and ensure that the <strong>Pyton path and PIP path are added to the environment variables.</strong>
 - Clone or Pull this repository
-- Install dependency on [`./requirements.txt`](./requirements.txt) by running the command `pip install -r requirements.txt`
+- Install dependencies on [`./requirements.txt`](./requirements.txt) by running the command `pip install -r requirements.txt`
 - Run [`./installment.py`](./installment.py) by running the command `python.exe ./installment.py` on terminal.
 - Choose work directories
   <p align='left'><img src = "https://github.com/user-attachments/assets/f9dbb3cd-5739-402b-91a1-959aa6881f70", width = 550> </br>
